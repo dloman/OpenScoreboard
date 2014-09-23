@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+
+    <LinearLayout
+        android:id="@+id/linearLayout1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="29dp"
+        android:background="@drawable/board"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="@string/game_clock"
+            android:textAppearance="@style/Score.TextAppearance.Medium" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:id="@+id/game_clock_deca_minutes_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:maxLines="1"
+                android:text="@string/zero"
+                android:textAppearance="@style/Score.TextAppearance.Large.Blue" />
+
+            <TextView
+                android:id="@+id/game_clock_minutes_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:maxLines="1"
+                android:text="@string/zero"
+                android:textAppearance="@style/Score.TextAppearance.Large.Blue" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="vertical" >
+
+                <ImageView
+                    android:id="@+id/imageView2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="1dp"
+                    android:layout_weight="1"
+                    android:contentDescription="@string/separator"
+                    android:src="@drawable/bullet" />
+
+                <ImageView
+                    android:id="@+id/imageView3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="1dp"
+                    android:layout_weight="1"
+                    android:contentDescription="@string/separator"
+                    android:src="@drawable/bullet" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/game_clock_seconds_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:maxLines="1"
+                android:text="@string/zero"
+                android:textAppearance="@style/Score.TextAppearance.Large.Blue" />
+
+            <TextView
+                android:id="@+id/game_clock_deci_seconds_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:text="@string/zero"
+                android:textAppearance="@style/Score.TextAppearance.Large.Blue" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal" >
+
+            <Button
+                android:id="@+id/start_game_clock"
+                style="@style/Score.Button.Small"
+                android:layout_width="fill_parent"
+                android:layout_height="@dimen/buttonSmallDim"
+                android:layout_marginTop="15dp"
+                android:text="@string/start_game_clock" />
+
+            <Button
+                android:id="@+id/stop_game_clock"
+                style="@style/Score.Button.Small"
+                android:layout_width="fill_parent"
+                android:layout_height="@dimen/buttonSmallDim"
+                android:layout_marginTop="15dp"
+                android:text="@string/stop_game_clock" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/linearLayout1"
+        android:layout_below="@+id/linearLayout1"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/board"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:baselineAligned="false" >
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_weight="1"
+                android:orientation="vertical" >
+
+                <Button
+                    android:id="@+id/home_score_up"
+                    style="@style/Score.Button.Small"
+                    android:layout_width="@dimen/buttonSmallDim"
+                    android:layout_height="@dimen/buttonSmallDim"
+                    android:text="@string/plus" />
+
+                <Button
+                    android:id="@+id/home_score_down"
+                    style="@style/Score.Button.Small"
+                    android:layout_width="@dimen/buttonSmallDim"
+                    android:layout_height="@dimen/buttonSmallDim"
+                    android:text="@string/minus" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/textView1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginBottom="15dp"
+                    android:text="@string/home"
+                    android:textAppearance="@style/Score.TextAppearance.Medium" />
+
+                <FrameLayout
+                    android:layout_width="100dp"
+                    android:layout_height="match_parent" >
+
+                    <TextView
+                        android:id="@+id/home_score_value"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:maxLines="1"
+                        android:text="@string/zero"
+                        android:textAppearance="@style/Score.TextAppearance.Large.Blue" />
+                </FrameLayout>
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/imageView1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_marginBottom="25dp"
+                android:layout_weight="1"
+                android:contentDescription="@string/separator"
+                android:src="@drawable/bullet" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/textView2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginBottom="15dp"
+                    android:maxLines="1"
+                    android:text="@string/away"
+                    android:textAppearance="@style/Score.TextAppearance.Medium" />
+
+                <FrameLayout
+                    android:layout_width="100dp"
+                    android:layout_height="match_parent" >
+
+                    <TextView
+                        android:id="@+id/away_score_value"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="@string/zero"
+                        android:textAppearance="@style/Score.TextAppearance.Large.Blue" />
+                </FrameLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_weight="1"
+                android:orientation="vertical" >
+
+                <Button
+                    android:id="@+id/away_score_up"
+                    style="@style/Score.Button.Small"
+                    android:layout_width="@dimen/buttonSmallDim"
+                    android:layout_height="@dimen/buttonSmallDim"
+                    android:text="@string/plus" />
+
+                <Button
+                    android:id="@+id/away_score_down"
+                    style="@style/Score.Button.Small"
+                    android:layout_width="@dimen/buttonSmallDim"
+                    android:layout_height="@dimen/buttonSmallDim"
+                    android:text="@string/minus" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/reset_score"
+            style="@style/Score.Button.Small"
+            android:layout_width="fill_parent"
+            android:layout_height="@dimen/buttonSmallDim"
+            android:layout_marginTop="15dp"
+            android:text="@string/reset_score" />
+    </LinearLayout>
+
+</RelativeLayout>

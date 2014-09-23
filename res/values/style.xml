@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+    <style name="Score.Button.Small" parent="@android:style/Widget.Holo.Button">
+        <item name="android:textSize">15sp</item>
+    </style>
+    
+    <style name="Score.TextAppearance.Large" parent="@android:style/TextAppearance.Holo.Large">
+        <item name="android:textSize">50sp</item>
+    </style>
+    
+    <style name="Score.TextAppearance.Large.Blue" parent="@style/Score.TextAppearance.Large">
+        <item name="android:textColor">@android:color/holo_blue_light</item>
+    </style>
+    
+    <style name="Score.TextAppearance.Medium" parent="@android:style/TextAppearance.Holo.Medium">
+    </style>
+    
+    <style name="Score.TextAppearance.Medium.Blue" parent="Score.TextAppearance.Medium">
+        <item name="android:textColor">@android:color/holo_blue_light</item>
+    </style>
+    
+    <dimen name="buttonSmallDim">35dp</dimen>
+</resources>
