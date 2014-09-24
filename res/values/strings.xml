@@ -7,7 +7,8 @@
     <string name="start_game_clock">Start Game Clock</string>
     <string name="stop_game_clock">Stop Game Clock</string>
     <string name="reset_score">Reset Score</string>
-    <string name="reset_clock">Reset Clock</string>
+    <string name="reset_game_clock">Reset Clock</string>
+    <string name="enter_game_time">Enter Game Time</string>
     <string name="plus">+</string>
     <string name="minus">-</string>
     <string name="zero">0</string>

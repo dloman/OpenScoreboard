@@ -1,8 +1,8 @@
 package com.openscoreboard;
 
-import android.support.v7.app.ActionBarActivity;
-import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -74,5 +74,5 @@ public class Scoreboard extends ActionBarActivity
             View rootView = inflater.inflate(R.layout.scoreboard_layout, container, false);
             return rootView;
         }
-    }
+    }   
 }

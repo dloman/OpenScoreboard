@@ -41,8 +41,11 @@ public class ScoreboardActivity extends Activity implements OnClickListener
         ((Button)ScoreboardView.findViewById(R.id.reset_score)).setOnClickListener((android.view.View.OnClickListener) this);
         
         //((Button)ScoreboardView.findViewById(R.id.reset_game_clock)).setOnClickListener(this);
-        ((Button)ScoreboardView.findViewById(R.id.start_game_clock)).setOnClickListener((android.view.View.OnClickListener) this);
-        ((Button)ScoreboardView.findViewById(R.id.stop_game_clock)).setOnClickListener((android.view.View.OnClickListener) this);
+        mClockStartStopButton = ((Button)ScoreboardView.findViewById(R.id.start_game_clock));
+        mClockStartStopButton.setOnClickListener((android.view.View.OnClickListener) this);
+        
+        ((Button)ScoreboardView.findViewById(R.id.reset_game_clock)).setOnClickListener((android.view.View.OnClickListener) this);
+        //((Button)ScoreboardView.findViewById(R.id.reset_game_clock)).setOnLongClickListener();
         
         return ScoreboardView;
 	}
@@ -75,8 +78,8 @@ public class ScoreboardActivity extends Activity implements OnClickListener
 		case R.id.start_game_clock:
 			mScoreboardData.SetGameClock(mScoreboardData.GetGameClock() + 1 );
 			break;
-		case R.id.stop_game_clock:
-			mScoreboardData.SetGameClock(mScoreboardData.GetGameClock() - 1 );
+		case R.id.reset_game_clock:
+			mScoreboardData.SetGameClock(0);
             break;
 		}
 		UpdateScoreboard();
@@ -96,27 +99,28 @@ public class ScoreboardActivity extends Activity implements OnClickListener
 		}
 		
 		int GameTime = mScoreboardData.GetGameClock();
-		if (Integer.parseInt((String) mGameClockDeciSeconds.getText()) != GameTime % 1)
+		if (Integer.parseInt((String) mGameClockDeciSeconds.getText()) != GameTime % 10)
 		{
-		  mGameClockDeciSeconds.setText(String.valueOf(GameTime % 1));
+		  mGameClockDeciSeconds.setText(String.valueOf(GameTime % 10));
 		  mGameClockDeciSeconds.startAnimation(mAnimation);
 		}
 		
+		GameTime/=10;
 		if (Integer.parseInt((String) mGameClockSeconds.getText()) != GameTime % 10)
 		{
 	      mGameClockSeconds.setText(String.valueOf(GameTime % 10));
 		  mGameClockSeconds.startAnimation(mAnimation);
 		}
-		
-		if (Integer.parseInt((String) mGameClockMinutes.getText()) != GameTime % 100)
+		GameTime/=10;
+		if (Integer.parseInt((String) mGameClockMinutes.getText()) != GameTime % 10)
 		{
-		  mGameClockMinutes.setText(String.valueOf(GameTime % 100));
+		  mGameClockMinutes.setText(String.valueOf(GameTime % 10));
 		  mGameClockMinutes.startAnimation(mAnimation);
 		}
-		
-		if (Integer.parseInt((String) mGameClockDecaMinutes.getText()) != GameTime % 1000)
+		GameTime/=10;
+		if (Integer.parseInt((String) mGameClockDecaMinutes.getText()) != GameTime % 10)
 		{
-		  mGameClockDecaMinutes.setText(String.valueOf(GameTime % 1000));
+		  mGameClockDecaMinutes.setText(String.valueOf(GameTime % 10));
 		  mGameClockDecaMinutes.startAnimation(mAnimation);
 		}
 	}
@@ -128,6 +132,8 @@ public class ScoreboardActivity extends Activity implements OnClickListener
 	private TextView mHomeScore;
 	
 	private TextView mAwayScore;
+	
+	private Button mClockStartStopButton;
 	
 	private TextView mGameClockDeciSeconds;
 	private TextView mGameClockSeconds;

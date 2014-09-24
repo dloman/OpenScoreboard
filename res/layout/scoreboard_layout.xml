@@ -103,12 +103,12 @@
                 android:text="@string/start_game_clock" />
 
             <Button
-                android:id="@+id/stop_game_clock"
+                android:id="@+id/reset_game_clock"
                 style="@style/Score.Button.Small"
                 android:layout_width="fill_parent"
                 android:layout_height="@dimen/buttonSmallDim"
                 android:layout_marginTop="15dp"
-                android:text="@string/stop_game_clock" />
+                android:text="@string/reset_game_clock" />
         </LinearLayout>
 
     </LinearLayout>
@@ -116,7 +116,7 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/linearLayout1"
+        android:layout_centerHorizontal="true"
         android:layout_below="@+id/linearLayout1"
         android:layout_marginTop="30dp"
         android:background="@drawable/board"

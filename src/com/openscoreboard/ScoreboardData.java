@@ -5,10 +5,12 @@ import android.os.Parcelable;
 
 public class ScoreboardData implements Parcelable
 {
-	private int mHomeScore;
-	private int mAwayScore;
-	
-	private int mGameClock; //will probably change to a timer in the future
+	public ScoreboardData()
+	{
+		mHomeScore = 0;
+		mAwayScore = 0;
+		mGameClock = 0;
+	}
 	
 	public int GetHomeScore()
 	{
@@ -54,4 +56,9 @@ public class ScoreboardData implements Parcelable
 		arg0.writeInt(mGameClock);
 	}
 
+	private int mHomeScore;
+	private int mAwayScore;
+	
+	private int mGameClock; //will probably change to a timer in the future
+	
 }
