@@ -1,6 +1,7 @@
 package com.openscoreboard;
 
 import android.app.Activity;
+import android.app.FragmentManager;
 import android.content.Context;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -31,21 +32,23 @@ public class ScoreboardActivity extends Activity implements OnClickListener
 		mGameClockMinutes = (TextView) ScoreboardView.findViewById(R.id.game_clock_minutes_value);
 		mGameClockDecaMinutes = (TextView) ScoreboardView.findViewById(R.id.game_clock_deca_minutes_value);
 		
-		UpdateScoreboard();
-		
-		
 		((Button)ScoreboardView.findViewById(R.id.home_score_up)).setOnClickListener((android.view.View.OnClickListener) this);
         ((Button)ScoreboardView.findViewById(R.id.home_score_down)).setOnClickListener((android.view.View.OnClickListener) this);
         ((Button)ScoreboardView.findViewById(R.id.away_score_up)).setOnClickListener((android.view.View.OnClickListener) this);
         ((Button)ScoreboardView.findViewById(R.id.away_score_down)).setOnClickListener((android.view.View.OnClickListener) this);
-        ((Button)ScoreboardView.findViewById(R.id.reset_score)).setOnClickListener((android.view.View.OnClickListener) this);
+        ((Button)ScoreboardView.findViewById(R.id.reset_home_score)).setOnClickListener((android.view.View.OnClickListener) this);
+        ((Button)ScoreboardView.findViewById(R.id.reset_away_score)).setOnClickListener((android.view.View.OnClickListener) this);
         
         //((Button)ScoreboardView.findViewById(R.id.reset_game_clock)).setOnClickListener(this);
         mClockStartStopButton = ((Button)ScoreboardView.findViewById(R.id.start_game_clock));
         mClockStartStopButton.setOnClickListener((android.view.View.OnClickListener) this);
         
-        ((Button)ScoreboardView.findViewById(R.id.reset_game_clock)).setOnClickListener((android.view.View.OnClickListener) this);
+        
+        mClockResetButton = ((Button)ScoreboardView.findViewById(R.id.reset_game_clock));
+        mClockResetButton.setOnClickListener((android.view.View.OnClickListener) this);
+        mClockResetButton.setOnLongClickListener(ResetClockLongClickListener);
         //((Button)ScoreboardView.findViewById(R.id.reset_game_clock)).setOnLongClickListener();
+        UpdateScoreboard();
         
         return ScoreboardView;
 	}
@@ -68,9 +71,11 @@ public class ScoreboardActivity extends Activity implements OnClickListener
 		case R.id.away_score_down:
 			mScoreboardData.SetAwayScore(mScoreboardData.GetAwayScore() - 1);
 			break;
-		case R.id.reset_score:
-			mScoreboardData.SetAwayScore(0);
+		case R.id.reset_home_score:
 			mScoreboardData.SetHomeScore(0);
+			break;
+		case R.id.reset_away_score:
+			mScoreboardData.SetAwayScore(0);
 			break;
 		//case R.id.reset_game_clock:
 		//	mScoreboardData.SetGameClock(0.0);
@@ -123,8 +128,42 @@ public class ScoreboardActivity extends Activity implements OnClickListener
 		  mGameClockDecaMinutes.setText(String.valueOf(GameTime % 10));
 		  mGameClockDecaMinutes.startAnimation(mAnimation);
 		}
+		
+		if (mScoreboardData.IsClockRunning())
+		{
+	      mClockStartStopButton.setText("Stop Clock");
+		}
+		else
+		{
+		  mClockStartStopButton.setText("Start Clock");
+		}
 	}
-
+	
+	private View.OnLongClickListener ResetClockLongClickListener = new View.OnLongClickListener()
+	{
+		@Override
+		public boolean onLongClick(View v) 
+		{
+			LaunchFragment();
+			return false;
+		}
+	};
+	
+    private void LaunchFragment()
+    {
+    	try
+    	{
+    	  SetClockFragment fragment = new SetClockFragment();
+    	  FragmentManager fragmentManager = getFragmentManager();
+    	  fragment.setRetainInstance(false);
+          fragment.show(fragmentManager, "Get Clock");
+    	}
+    	catch (Exception e)
+    	{
+    		int a = 5;
+    	}
+    }
+	
 	private ScoreboardData mScoreboardData;
 	
 	private Animation mAnimation;
@@ -134,10 +173,10 @@ public class ScoreboardActivity extends Activity implements OnClickListener
 	private TextView mAwayScore;
 	
 	private Button mClockStartStopButton;
+	private Button mClockResetButton;
 	
 	private TextView mGameClockDeciSeconds;
 	private TextView mGameClockSeconds;
 	private TextView mGameClockMinutes;
 	private TextView mGameClockDecaMinutes;
-
 }

@@ -42,6 +42,11 @@ public class ScoreboardData implements Parcelable
 		this.mGameClock = GameClock;
 	}
 
+	public boolean IsClockRunning()
+	{
+		return mIsClockRunning;
+	}
+	
 	@Override
 	public int describeContents() {
 		// TODO Auto-generated method stub
@@ -54,11 +59,15 @@ public class ScoreboardData implements Parcelable
 		arg0.writeInt(mHomeScore);
 		arg0.writeInt(mAwayScore);
 		arg0.writeInt(mGameClock);
+		arg0.writeValue(mIsClockRunning);
 	}
+	
 
 	private int mHomeScore;
 	private int mAwayScore;
 	
 	private int mGameClock; //will probably change to a timer in the future
+	
+	private boolean mIsClockRunning;
 	
 }
