@@ -1,8 +1,13 @@
 package com.openscoreboard;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.util.concurrent.TimeUnit;
+
 import android.app.Activity;
 import android.app.FragmentManager;
 import android.content.Context;
+import android.os.CountDownTimer;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.animation.Animation;
@@ -23,14 +28,14 @@ public class ScoreboardActivity extends Activity implements OnClickListener
 		View ScoreboardView = View.inflate(context, R.layout.scoreboard_layout, null);
 		
 		mAnimation = AnimationUtils.loadAnimation(context, R.anim.abc_slide_in_top);
+		//mAnimation.restrictDuration(100);
+		mAnimation.setDuration(200);
 		
 		mHomeScore = (TextView) ScoreboardView.findViewById(R.id.home_score_value);
 		mAwayScore = (TextView) ScoreboardView.findViewById(R.id.away_score_value);
-		
-		mGameClockDeciSeconds = (TextView) ScoreboardView.findViewById(R.id.game_clock_deci_seconds_value);
+
 		mGameClockSeconds = (TextView) ScoreboardView.findViewById(R.id.game_clock_seconds_value);
 		mGameClockMinutes = (TextView) ScoreboardView.findViewById(R.id.game_clock_minutes_value);
-		mGameClockDecaMinutes = (TextView) ScoreboardView.findViewById(R.id.game_clock_deca_minutes_value);
 		
 		((Button)ScoreboardView.findViewById(R.id.home_score_up)).setOnClickListener((android.view.View.OnClickListener) this);
         ((Button)ScoreboardView.findViewById(R.id.home_score_down)).setOnClickListener((android.view.View.OnClickListener) this);
@@ -77,19 +82,50 @@ public class ScoreboardActivity extends Activity implements OnClickListener
 		case R.id.reset_away_score:
 			mScoreboardData.SetAwayScore(0);
 			break;
-		//case R.id.reset_game_clock:
-		//	mScoreboardData.SetGameClock(0.0);
-		//	break;
 		case R.id.start_game_clock:
-			mScoreboardData.SetGameClock(mScoreboardData.GetGameClock() + 1 );
+			if (!mScoreboardData.IsClockRunning())
+			{
+				StartTimer();
+			}
+			else
+			{
+				mGameTimer.cancel();
+				mScoreboardData.SetClockRunning(false);
+			}
 			break;
 		case R.id.reset_game_clock:
-			mScoreboardData.SetGameClock(0);
+			mScoreboardData.SetGameClock(300000);
+			mScoreboardData.SetClockRunning(false);
+			if (mGameTimer != null)
+			{
+				mGameTimer.cancel();
+			}
             break;
 		}
 		UpdateScoreboard();
 	}
 	
+	private void StartTimer() 
+	{
+		mGameTimer = new CountDownTimer(mScoreboardData.GetGameClock(), 1000)
+		
+		  {
+			public void onTick(long millisecondsUntilTimerFinished)
+			{
+				mScoreboardData.SetGameClock(millisecondsUntilTimerFinished);
+				UpdateScoreboard();
+			}
+			
+			public void onFinish()
+			{
+				mScoreboardData.SetGameClock(0);
+				UpdateScoreboard();
+			}
+		  }.start();
+		mScoreboardData.SetClockRunning(true);
+	}
+
+
 	private void UpdateScoreboard() 
 	{
 		if (Integer.parseInt((String) mHomeScore.getText()) != mScoreboardData.GetHomeScore())
@@ -102,38 +138,30 @@ public class ScoreboardActivity extends Activity implements OnClickListener
 		  mAwayScore.setText(String.valueOf(mScoreboardData.GetAwayScore()));
 		  mAwayScore.setAnimation(mAnimation);
 		}
+		NumberFormat numberFormat = new DecimalFormat("00");
 		
-		int GameTime = mScoreboardData.GetGameClock();
-		if (Integer.parseInt((String) mGameClockDeciSeconds.getText()) != GameTime % 10)
-		{
-		  mGameClockDeciSeconds.setText(String.valueOf(GameTime % 10));
-		  mGameClockDeciSeconds.startAnimation(mAnimation);
-		}
+		long GameTimeMilliseconds = mScoreboardData.GetGameClock();
+		long GameTimeMinutes = TimeUnit.MILLISECONDS.toMinutes(GameTimeMilliseconds);
+		GameTimeMilliseconds -= TimeUnit.MINUTES.toMillis(GameTimeMinutes);
+		long GameTimeSeconds = TimeUnit.MILLISECONDS.toSeconds(GameTimeMilliseconds);
 		
-		GameTime/=10;
-		if (Integer.parseInt((String) mGameClockSeconds.getText()) != GameTime % 10)
+		if (Integer.parseInt((String) mGameClockSeconds.getText()) != GameTimeSeconds)
 		{
-	      mGameClockSeconds.setText(String.valueOf(GameTime % 10));
+		  mGameClockSeconds.setText(String.valueOf(numberFormat.format(GameTimeSeconds)));
 		  mGameClockSeconds.startAnimation(mAnimation);
 		}
-		GameTime/=10;
-		if (Integer.parseInt((String) mGameClockMinutes.getText()) != GameTime % 10)
+		
+		if (Integer.parseInt((String) mGameClockMinutes.getText()) != GameTimeMinutes)
 		{
-		  mGameClockMinutes.setText(String.valueOf(GameTime % 10));
+		  mGameClockMinutes.setText(String.valueOf(numberFormat.format(GameTimeMinutes)));
 		  mGameClockMinutes.startAnimation(mAnimation);
 		}
-		GameTime/=10;
-		if (Integer.parseInt((String) mGameClockDecaMinutes.getText()) != GameTime % 10)
-		{
-		  mGameClockDecaMinutes.setText(String.valueOf(GameTime % 10));
-		  mGameClockDecaMinutes.startAnimation(mAnimation);
-		}
 		
-		if (mScoreboardData.IsClockRunning())
+		if (mScoreboardData.IsClockRunning() && mClockStartStopButton.getText() != "Stop Clock")
 		{
 	      mClockStartStopButton.setText("Stop Clock");
 		}
-		else
+		else if (!mScoreboardData.IsClockRunning() && mClockStartStopButton.getText() == "Stop Clock")
 		{
 		  mClockStartStopButton.setText("Start Clock");
 		}
@@ -153,10 +181,10 @@ public class ScoreboardActivity extends Activity implements OnClickListener
     {
     	try
     	{
-    	  SetClockFragment fragment = new SetClockFragment();
-    	  FragmentManager fragmentManager = getFragmentManager();
-    	  fragment.setRetainInstance(false);
-          fragment.show(fragmentManager, "Get Clock");
+    	  //SetClockFragment fragment = new SetClockFragment();
+    	  //FragmentManager fragmentManager = getFragmentManager();
+    	  //fragment.setRetainInstance(false);
+          //fragment.show(fragmentManager, "Get Clock");
     	}
     	catch (Exception e)
     	{
@@ -175,8 +203,10 @@ public class ScoreboardActivity extends Activity implements OnClickListener
 	private Button mClockStartStopButton;
 	private Button mClockResetButton;
 	
-	private TextView mGameClockDeciSeconds;
 	private TextView mGameClockSeconds;
+	private TextView mGameClockDecaSeconds;
 	private TextView mGameClockMinutes;
 	private TextView mGameClockDecaMinutes;
+	
+	private CountDownTimer mGameTimer;
 }

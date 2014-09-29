@@ -182,15 +182,6 @@
             android:orientation="horizontal" >
 
             <TextView
-                android:id="@+id/game_clock_deca_minutes_value"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:maxLines="1"
-                android:text="@string/zero"
-                android:textAppearance="@style/Score.TextAppearance.Large.Blue" />
-
-            <TextView
                 android:id="@+id/game_clock_minutes_value"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -225,15 +216,6 @@
 
             <TextView
                 android:id="@+id/game_clock_seconds_value"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:maxLines="1"
-                android:text="@string/zero"
-                android:textAppearance="@style/Score.TextAppearance.Large.Blue" />
-
-            <TextView
-                android:id="@+id/game_clock_deci_seconds_value"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:maxLines="1"

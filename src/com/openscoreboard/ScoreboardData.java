@@ -19,7 +19,15 @@ public class ScoreboardData implements Parcelable
 	
 	public void SetHomeScore(int HomeScore)
 	{
-		this.mHomeScore = HomeScore;
+		if(HomeScore < 0 || HomeScore > 99 )
+		{
+			this.mHomeScore = 0;
+			
+		}
+		else
+		{
+			this.mHomeScore = HomeScore;
+		}
 	}
 
 	public int GetAwayScore()
@@ -29,15 +37,22 @@ public class ScoreboardData implements Parcelable
 	
 	public void SetAwayScore(int AwayScore)
 	{
-		this.mAwayScore = AwayScore;
+		if(AwayScore < 0 || AwayScore > 99 )
+	    {
+			this.mAwayScore = 0;
+	    }
+		else
+		{
+			this.mAwayScore = AwayScore;
+		}
 	}
 	
-	public int GetGameClock()
+	public long GetGameClock()
 	{
 		return mGameClock;
 	}
 	
-	public void SetGameClock(int GameClock)
+	public void SetGameClock(long GameClock)
 	{
 		this.mGameClock = GameClock;
 	}
@@ -45,6 +60,11 @@ public class ScoreboardData implements Parcelable
 	public boolean IsClockRunning()
 	{
 		return mIsClockRunning;
+	}
+	
+	public void SetClockRunning(Boolean ClockBool)
+	{
+		mIsClockRunning = ClockBool;
 	}
 	
 	@Override
@@ -58,7 +78,7 @@ public class ScoreboardData implements Parcelable
 	{
 		arg0.writeInt(mHomeScore);
 		arg0.writeInt(mAwayScore);
-		arg0.writeInt(mGameClock);
+		arg0.writeLong(mGameClock);
 		arg0.writeValue(mIsClockRunning);
 	}
 	
@@ -66,7 +86,7 @@ public class ScoreboardData implements Parcelable
 	private int mHomeScore;
 	private int mAwayScore;
 	
-	private int mGameClock; //will probably change to a timer in the future
+	private long mGameClock; //will probably change to a timer in the future
 	
 	private boolean mIsClockRunning;
 	
