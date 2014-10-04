@@ -19,7 +19,7 @@ public class ScoreboardActivity extends Activity implements OnClickListener
 {
 	ScoreboardActivity(ScoreboardData ScoreboardData)
 	{
-		this.mScoreboardData = ScoreboardData;
+		ScoreboardActivity.mScoreboardData = ScoreboardData;
 	}
 
 	
@@ -29,7 +29,7 @@ public class ScoreboardActivity extends Activity implements OnClickListener
 		
 		mAnimation = AnimationUtils.loadAnimation(context, R.anim.abc_slide_in_top);
 		//mAnimation.restrictDuration(100);
-		mAnimation.setDuration(200);
+		mAnimation.setDuration(400);
 		
 		mHomeScore = (TextView) ScoreboardView.findViewById(R.id.home_score_value);
 		mAwayScore = (TextView) ScoreboardView.findViewById(R.id.away_score_value);
@@ -126,7 +126,7 @@ public class ScoreboardActivity extends Activity implements OnClickListener
 	}
 
 
-	private void UpdateScoreboard() 
+	private static void UpdateScoreboard() 
 	{
 		if (Integer.parseInt((String) mHomeScore.getText()) != mScoreboardData.GetHomeScore())
 		{
@@ -192,21 +192,19 @@ public class ScoreboardActivity extends Activity implements OnClickListener
     	}
     }
 	
-	private ScoreboardData mScoreboardData;
+	private static ScoreboardData mScoreboardData;
 	
-	private Animation mAnimation;
+	static private Animation mAnimation;
 	
-	private TextView mHomeScore;
+	private static TextView mHomeScore;
 	
-	private TextView mAwayScore;
+	private static TextView mAwayScore;
 	
-	private Button mClockStartStopButton;
-	private Button mClockResetButton;
+	private static Button mClockStartStopButton;
+	private static Button mClockResetButton;
 	
-	private TextView mGameClockSeconds;
-	private TextView mGameClockDecaSeconds;
-	private TextView mGameClockMinutes;
-	private TextView mGameClockDecaMinutes;
+	private static TextView mGameClockSeconds;
+	private static TextView mGameClockMinutes;
 	
-	private CountDownTimer mGameTimer;
+	private static CountDownTimer mGameTimer;
 }

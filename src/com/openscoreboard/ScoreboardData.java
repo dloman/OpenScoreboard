@@ -81,7 +81,28 @@ public class ScoreboardData implements Parcelable
 		arg0.writeLong(mGameClock);
 		arg0.writeValue(mIsClockRunning);
 	}
-	
+
+	public static final Parcelable.Creator<ScoreboardData> CREATOR
+       = new Parcelable.Creator<ScoreboardData>() 
+     {
+		public ScoreboardData createFromParcel(Parcel in) 
+		{
+			return new ScoreboardData(in);
+		}
+
+		public ScoreboardData[] newArray(int size) 
+		{
+			return new ScoreboardData[size];
+		}
+     };
+
+	private ScoreboardData(Parcel arg0) 
+	{
+		mHomeScore = arg0.readInt();
+		mAwayScore = arg0.readInt();
+		mGameClock = arg0.readLong();
+		mIsClockRunning = (Boolean) arg0.readValue(null);
+	}
 
 	private int mHomeScore;
 	private int mAwayScore;
