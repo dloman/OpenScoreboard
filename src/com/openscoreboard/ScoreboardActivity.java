@@ -22,42 +22,40 @@ public class ScoreboardActivity extends Activity implements OnClickListener
 		ScoreboardActivity.mScoreboardData = ScoreboardData;
 	}
 
-	
+
 	public View loadView(Context context)
 	{
 		View ScoreboardView = View.inflate(context, R.layout.scoreboard_layout, null);
-		
+
 		mAnimation = AnimationUtils.loadAnimation(context, R.anim.abc_slide_in_top);
-		//mAnimation.restrictDuration(100);
 		mAnimation.setDuration(400);
-		
+
 		mHomeScore = (TextView) ScoreboardView.findViewById(R.id.home_score_value);
 		mAwayScore = (TextView) ScoreboardView.findViewById(R.id.away_score_value);
 
 		mGameClockSeconds = (TextView) ScoreboardView.findViewById(R.id.game_clock_seconds_value);
 		mGameClockMinutes = (TextView) ScoreboardView.findViewById(R.id.game_clock_minutes_value);
-		
+
 		((Button)ScoreboardView.findViewById(R.id.home_score_up)).setOnClickListener((android.view.View.OnClickListener) this);
         ((Button)ScoreboardView.findViewById(R.id.home_score_down)).setOnClickListener((android.view.View.OnClickListener) this);
         ((Button)ScoreboardView.findViewById(R.id.away_score_up)).setOnClickListener((android.view.View.OnClickListener) this);
         ((Button)ScoreboardView.findViewById(R.id.away_score_down)).setOnClickListener((android.view.View.OnClickListener) this);
         ((Button)ScoreboardView.findViewById(R.id.reset_home_score)).setOnClickListener((android.view.View.OnClickListener) this);
         ((Button)ScoreboardView.findViewById(R.id.reset_away_score)).setOnClickListener((android.view.View.OnClickListener) this);
-        
-        //((Button)ScoreboardView.findViewById(R.id.reset_game_clock)).setOnClickListener(this);
+
         mClockStartStopButton = ((Button)ScoreboardView.findViewById(R.id.start_game_clock));
         mClockStartStopButton.setOnClickListener((android.view.View.OnClickListener) this);
-        
-        
+
+
         mClockResetButton = ((Button)ScoreboardView.findViewById(R.id.reset_game_clock));
         mClockResetButton.setOnClickListener((android.view.View.OnClickListener) this);
         mClockResetButton.setOnLongClickListener(ResetClockLongClickListener);
         //((Button)ScoreboardView.findViewById(R.id.reset_game_clock)).setOnLongClickListener();
         UpdateScoreboard();
-        
+
         return ScoreboardView;
 	}
-	
+
 	@Override
 	public void onClick(View v)
 	{
@@ -66,13 +64,13 @@ public class ScoreboardActivity extends Activity implements OnClickListener
 		{
 		case R.id.home_score_up:
 			mScoreboardData.SetHomeScore(mScoreboardData.GetHomeScore() + 1);
-			break;			
+			break;
 		case R.id.home_score_down:
 			mScoreboardData.SetHomeScore(mScoreboardData.GetHomeScore() - 1);
 			break;
 		case R.id.away_score_up:
 			mScoreboardData.SetAwayScore(mScoreboardData.GetAwayScore() + 1);
-			break;			
+			break;
 		case R.id.away_score_down:
 			mScoreboardData.SetAwayScore(mScoreboardData.GetAwayScore() - 1);
 			break;
@@ -104,18 +102,18 @@ public class ScoreboardActivity extends Activity implements OnClickListener
 		}
 		UpdateScoreboard();
 	}
-	
-	private void StartTimer() 
+
+	private void StartTimer()
 	{
 		mGameTimer = new CountDownTimer(mScoreboardData.GetGameClock(), 1000)
-		
+
 		  {
 			public void onTick(long millisecondsUntilTimerFinished)
 			{
 				mScoreboardData.SetGameClock(millisecondsUntilTimerFinished);
 				UpdateScoreboard();
 			}
-			
+
 			public void onFinish()
 			{
 				mScoreboardData.SetGameClock(0);
@@ -126,7 +124,7 @@ public class ScoreboardActivity extends Activity implements OnClickListener
 	}
 
 
-	private static void UpdateScoreboard() 
+	private static void UpdateScoreboard()
 	{
 		if (Integer.parseInt((String) mHomeScore.getText()) != mScoreboardData.GetHomeScore())
 		{
@@ -139,24 +137,24 @@ public class ScoreboardActivity extends Activity implements OnClickListener
 		  mAwayScore.setAnimation(mAnimation);
 		}
 		NumberFormat numberFormat = new DecimalFormat("00");
-		
+
 		long GameTimeMilliseconds = mScoreboardData.GetGameClock();
 		long GameTimeMinutes = TimeUnit.MILLISECONDS.toMinutes(GameTimeMilliseconds);
 		GameTimeMilliseconds -= TimeUnit.MINUTES.toMillis(GameTimeMinutes);
 		long GameTimeSeconds = TimeUnit.MILLISECONDS.toSeconds(GameTimeMilliseconds);
-		
+
 		if (Integer.parseInt((String) mGameClockSeconds.getText()) != GameTimeSeconds)
 		{
 		  mGameClockSeconds.setText(String.valueOf(numberFormat.format(GameTimeSeconds)));
 		  mGameClockSeconds.startAnimation(mAnimation);
 		}
-		
+
 		if (Integer.parseInt((String) mGameClockMinutes.getText()) != GameTimeMinutes)
 		{
 		  mGameClockMinutes.setText(String.valueOf(numberFormat.format(GameTimeMinutes)));
 		  mGameClockMinutes.startAnimation(mAnimation);
 		}
-		
+
 		if (mScoreboardData.IsClockRunning() && mClockStartStopButton.getText() != "Stop Clock")
 		{
 	      mClockStartStopButton.setText("Stop Clock");
@@ -166,17 +164,17 @@ public class ScoreboardActivity extends Activity implements OnClickListener
 		  mClockStartStopButton.setText("Start Clock");
 		}
 	}
-	
+
 	private View.OnLongClickListener ResetClockLongClickListener = new View.OnLongClickListener()
 	{
 		@Override
-		public boolean onLongClick(View v) 
+		public boolean onLongClick(View v)
 		{
 			LaunchFragment();
 			return false;
 		}
 	};
-	
+
     private void LaunchFragment()
     {
     	try
@@ -191,20 +189,20 @@ public class ScoreboardActivity extends Activity implements OnClickListener
     		int a = 5;
     	}
     }
-	
+
 	private static ScoreboardData mScoreboardData;
-	
+
 	static private Animation mAnimation;
-	
+
 	private static TextView mHomeScore;
-	
+
 	private static TextView mAwayScore;
-	
+
 	private static Button mClockStartStopButton;
 	private static Button mClockResetButton;
-	
+
 	private static TextView mGameClockSeconds;
 	private static TextView mGameClockMinutes;
-	
+
 	private static CountDownTimer mGameTimer;
 }
