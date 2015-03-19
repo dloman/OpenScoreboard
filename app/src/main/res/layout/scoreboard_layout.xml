@@ -64,7 +64,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:maxLines="1"
-                        android:text="@string/zero"
+                        android:text="@string/doubleZero"
                         android:textAppearance="@style/Score.TextAppearance.Large.Blue" />
                 </FrameLayout>
             </LinearLayout>
@@ -104,7 +104,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:text="@string/zero"
+                        android:text="@string/doubleZero"
                         android:textAppearance="@style/Score.TextAppearance.Large.Blue" />
                 </FrameLayout>
             </LinearLayout>
@@ -187,7 +187,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:maxLines="1"
-                android:text="@string/zero"
+                android:text="@string/doubleZero"
                 android:textAppearance="@style/Score.TextAppearance.Large.Blue" />
 
             <LinearLayout
@@ -222,7 +222,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:maxLines="1"
-                android:text="@string/zero"
+                android:text="@string/doubleZero"
                 android:textAppearance="@style/Score.TextAppearance.Large.Blue" />
         </LinearLayout>
 

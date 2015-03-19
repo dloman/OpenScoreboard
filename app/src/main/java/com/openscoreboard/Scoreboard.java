@@ -1,18 +1,15 @@
 package com.openscoreboard;
 
+
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.app.ActionBarActivity;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
 
 
-public class Scoreboard extends ActionBarActivity 
+public class Scoreboard extends ActionBarActivity implements GameTimePickerDialog.NumberPickerDialogListener
 {
-
 	private ScoreboardData mScoreboardData;
 	
     @Override
@@ -26,14 +23,28 @@ public class Scoreboard extends ActionBarActivity
         }
         else
         {
-        	mScoreboardData = 
-        	  (ScoreboardData) savedInstanceState.getParcelable("mScoreboardData");
+        	mScoreboardData = savedInstanceState.getParcelable("mScoreboardData");
         }
         
         ScoreboardActivity Activity = new ScoreboardActivity(mScoreboardData);
         setContentView(Activity.loadView(this));
     }
-    
+
+    @Override
+    public void onDialogPositiveClick(int Minutes, int Seconds, boolean resetPeriodTime) {
+        mScoreboardData.SetGameClock(((Minutes * 60) + Seconds) * 1000);
+
+        if (resetPeriodTime) {
+            mScoreboardData.SetPeriodTime(((Minutes * 60) + Seconds) * 1000);
+        }
+        ScoreboardActivity.UpdateScoreboard();
+    }
+
+    @Override
+    public void onDialogNegativeClick() {
+        // User touched the dialog's negative button
+    }
+
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState)
     {
@@ -42,7 +53,7 @@ public class Scoreboard extends ActionBarActivity
 
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) 
+    public boolean onCreateOptionsMenu(Menu menu)
     {
         // Inflate the menu; this adds items to the action bar if it is present.
         //getMenuInflater().inflate(R.menu.scoreboard, menu);
@@ -57,22 +68,4 @@ public class Scoreboard extends ActionBarActivity
         // as you specify a parent activity in AndroidManifest.xml.
         return super.onOptionsItemSelected(item);
     }
-
-    /**
-     * A placeholder fragment containing a simple view.
-     */
-    public static class PlaceholderFragment extends Fragment 
-    {
-
-        public PlaceholderFragment() 
-        {
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.scoreboard_layout, container, false);
-            return rootView;
-        }
-    }   
 }

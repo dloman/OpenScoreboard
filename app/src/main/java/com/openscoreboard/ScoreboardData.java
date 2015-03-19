@@ -1,5 +1,6 @@
 package com.openscoreboard;
 
+import android.os.CountDownTimer;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -10,6 +11,7 @@ public class ScoreboardData implements Parcelable
 		mHomeScore = 0;
 		mAwayScore = 0;
 		mGameClock = 0;
+        mPeriodTime = 300000;
 	}
 	
 	public int GetHomeScore()
@@ -37,25 +39,44 @@ public class ScoreboardData implements Parcelable
 	
 	public void SetAwayScore(int AwayScore)
 	{
-		if(AwayScore < 0 || AwayScore > 99 )
-	    {
-			this.mAwayScore = 0;
-	    }
-		else
-		{
-			this.mAwayScore = AwayScore;
-		}
+
+        if(AwayScore < 0 || AwayScore > 99 )
+        {
+            this.mAwayScore = 0;
+
+        }
+        else
+        {
+            this.mAwayScore = AwayScore;
+        }
 	}
 	
 	public long GetGameClock()
 	{
-		return mGameClock;
+		return this.mGameClock;
 	}
 	
-	public void SetGameClock(long GameClock)
-	{
-		this.mGameClock = GameClock;
-	}
+	public void SetGameClock(long GameClock) {
+        mGameClock = GameClock;
+        if (mGameTimer != null) {
+            mGameTimer.cancel();
+        }
+        mGameTimer = new CountDownTimer(mGameClock, 100) {
+            public void onTick(long secondsUntilTimerFinished) {
+                mGameClock = secondsUntilTimerFinished;
+                ScoreboardActivity.UpdateScoreboard();
+            }
+
+            public void onFinish() {
+                mGameClock = 0;
+                ScoreboardActivity.UpdateScoreboard();
+            }
+        };
+
+        if (IsClockRunning()) {
+            mGameTimer.start();
+        }
+    }
 
 	public boolean IsClockRunning()
 	{
@@ -64,10 +85,26 @@ public class ScoreboardData implements Parcelable
 	
 	public void SetClockRunning(Boolean ClockBool)
 	{
-		mIsClockRunning = ClockBool;
+		if (ClockBool) {
+            mIsClockRunning = true;
+            mGameTimer.start();
+        }
+        else {
+            mIsClockRunning = false;
+            SetGameClock(mGameClock);
+        }
 	}
+
+    public void ResetGameClock()
+    {
+        SetGameClock(mPeriodTime);
+    }
 	
-	@Override
+	public void SetPeriodTime(long PeriodTime){ this.mPeriodTime = PeriodTime; }
+
+    public long GetPeriodTime() { return mPeriodTime; }
+
+    @Override
 	public int describeContents() {
 		// TODO Auto-generated method stub
 		return 0;
@@ -79,6 +116,7 @@ public class ScoreboardData implements Parcelable
 		arg0.writeInt(mHomeScore);
 		arg0.writeInt(mAwayScore);
 		arg0.writeLong(mGameClock);
+        arg0.writeLong(mPeriodTime);
 		arg0.writeValue(mIsClockRunning);
 	}
 
@@ -101,14 +139,16 @@ public class ScoreboardData implements Parcelable
 		mHomeScore = arg0.readInt();
 		mAwayScore = arg0.readInt();
 		mGameClock = arg0.readLong();
+        mPeriodTime = arg0.readLong();
 		mIsClockRunning = (Boolean) arg0.readValue(null);
 	}
 
 	private int mHomeScore;
 	private int mAwayScore;
 	
-	private long mGameClock; //will probably change to a timer in the future
-	
+	private long mGameClock;
+	private long mPeriodTime;
+
 	private boolean mIsClockRunning;
-	
+    private CountDownTimer mGameTimer;
 }
