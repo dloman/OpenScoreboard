@@ -69,6 +69,7 @@ public class ScoreboardData implements Parcelable
 
             public void onFinish() {
                 mGameClock = 0;
+                mIsClockRunning = false;
                 ScoreboardActivity.UpdateScoreboard();
             }
         };
@@ -85,6 +86,11 @@ public class ScoreboardData implements Parcelable
 	
 	public void SetClockRunning(Boolean ClockBool)
 	{
+
+        if ((mGameTimer == null) || (mGameClock == 0)) {
+            ResetGameClock();
+        }
+
 		if (ClockBool) {
             mIsClockRunning = true;
             mGameTimer.start();

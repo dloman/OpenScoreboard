@@ -148,7 +148,7 @@ public class ScoreboardActivity extends FragmentActivity implements OnClickListe
 		  mGameClockMinutes.startAnimation(mAnimation);
 		}
 
-		if (mScoreboardData.IsClockRunning())
+		if (mScoreboardData.IsClockRunning() && mScoreboardData.GetGameClock() != 0)
 		{
 	      mClockStartStopButton.setText("Stop Clock");
 		}
