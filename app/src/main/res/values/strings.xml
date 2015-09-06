@@ -4,8 +4,9 @@
     <string name="home">Home</string>
     <string name="away">Visitor</string>
     <string name="game_clock">Game Clock</string>
-    <string name="start_game_clock">Start Game Clock</string>
-    <string name="stop_game_clock">Stop Game Clock</string>
+    <string name="shot_clock">Shot Clock</string>
+    <string name="start_game_clock">Start Game</string>
+    <string name="stop_game_clock">Stop Game</string>
     <string name="reset_score">Reset Score</string>
     <string name="reset_game_clock">Reset Clock</string>
     <string name="set_game_time">Set</string>

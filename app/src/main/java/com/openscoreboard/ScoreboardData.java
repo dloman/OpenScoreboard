@@ -11,6 +11,8 @@ public class ScoreboardData implements Parcelable
 		mHomeScore = 0;
 		mAwayScore = 0;
 		mGameClock = 0;
+		mShotClock = 0;
+		mDefaultShotClockTime = 35000;
         mPeriodTime = 300000;
 	}
 
@@ -51,10 +53,7 @@ public class ScoreboardData implements Parcelable
         }
 	}
 
-	public long GetGameClock()
-	{
-		return this.mGameClock;
-	}
+	public long GetGameClock() { return mGameClock; }
 
 	public void SetGameClock(long GameClock) {
         mGameClock = GameClock;
@@ -69,36 +68,78 @@ public class ScoreboardData implements Parcelable
 
             public void onFinish() {
                 mGameClock = 0;
-                mIsClockRunning = false;
+                mIsGameClockRunning = false;
                 ScoreboardActivity.UpdateScoreboard();
             }
         };
 
-        if (IsClockRunning()) {
+        if (IsGameClockRunning()) {
             mGameTimer.start();
         }
     }
 
-	public boolean IsClockRunning()
-	{
-		return mIsClockRunning;
-	}
+	public boolean IsGameClockRunning() { return mIsGameClockRunning; }
 
-	public void SetClockRunning(Boolean ClockBool)
+	public void SetGameClockRunning(Boolean ClockBool)
 	{
 
-        if ((mGameTimer == null) || (mGameClock == 0)) {
-            ResetGameClock();
-        }
+		if ((mGameTimer == null) || (mGameClock == 0)) {
+			ResetGameClock();
+		}
 
 		if (ClockBool) {
-            mIsClockRunning = true;
-            mGameTimer.start();
-        }
-        else {
-            mIsClockRunning = false;
-            SetGameClock(mGameClock);
-        }
+			mIsGameClockRunning = true;
+			mGameTimer.start();
+		}
+		else {
+			mIsGameClockRunning = false;
+			SetGameClock(mGameClock);
+		}
+	}
+
+	public long GetShotClock() { return mShotClock; }
+
+	public void SetShotClock(long ShotClock) {
+		mShotClock = ShotClock;
+		if (mShotClockTimer != null)
+		{
+			mShotClockTimer.cancel();
+		}
+		mShotClockTimer = new CountDownTimer(mShotClock, 100) {
+			public void onTick(long millisUntilTimerFinished) {
+				mShotClock = millisUntilTimerFinished;
+				ShotClockActivity.UpdateShotClock();
+			}
+
+			public void onFinish() {
+				mShotClock = 0;
+				mIsShotClockRunning = false;
+				ShotClockActivity.UpdateShotClock();
+			}
+		};
+
+		if (IsShotClockRunning()) {
+			mShotClockTimer.start();
+		}
+	}
+
+	public boolean IsShotClockRunning() { return mIsShotClockRunning; }
+
+	public void SetShotClockRunning(Boolean ClockBool)
+	{
+
+		if ((mShotClockTimer == null) || (mShotClock == 0)) {
+			ResetShotClock();
+		}
+
+		if (ClockBool) {
+			mIsShotClockRunning = true;
+			mShotClockTimer.start();
+		}
+		else {
+			mIsShotClockRunning = false;
+			SetShotClock(mShotClock);
+		}
 	}
 
     public void ResetGameClock()
@@ -106,9 +147,21 @@ public class ScoreboardData implements Parcelable
         SetGameClock(mPeriodTime);
     }
 
+	public void ResetShotClock()
+	{
+		SetShotClock(mDefaultShotClockTime);
+	}
+
 	public void SetPeriodTime(long PeriodTime){ this.mPeriodTime = PeriodTime; }
 
     public long GetPeriodTime() { return mPeriodTime; }
+
+	public void SetDefaultShotClockTime(long DefaultShotClockTime)
+	{
+		mDefaultShotClockTime = DefaultShotClockTime;
+	}
+
+	public long GetDefaultShotClockTime() { return mDefaultShotClockTime; }
 
     @Override
 	public int describeContents() {
@@ -122,8 +175,11 @@ public class ScoreboardData implements Parcelable
 		arg0.writeInt(mHomeScore);
 		arg0.writeInt(mAwayScore);
 		arg0.writeLong(mGameClock);
+		arg0.writeLong(mShotClock);
         arg0.writeLong(mPeriodTime);
-		arg0.writeValue(mIsClockRunning);
+		arg0.writeLong(mDefaultShotClockTime);
+		arg0.writeValue(mIsGameClockRunning);
+		arg0.writeValue(mIsShotClockRunning);
 	}
 
 	public static final Parcelable.Creator<ScoreboardData> CREATOR
@@ -145,8 +201,11 @@ public class ScoreboardData implements Parcelable
 		mHomeScore = arg0.readInt();
 		mAwayScore = arg0.readInt();
 		mGameClock = arg0.readLong();
+		mShotClock = arg0.readLong();
         mPeriodTime = arg0.readLong();
-		mIsClockRunning = (Boolean) arg0.readValue(null);
+		mDefaultShotClockTime = arg0.readLong();
+		mIsGameClockRunning = (Boolean) arg0.readValue(null);
+		mIsShotClockRunning = (Boolean) arg0.readValue(null);
 	}
 
 	private int mHomeScore;
@@ -154,7 +213,11 @@ public class ScoreboardData implements Parcelable
 
 	private long mGameClock;
 	private long mPeriodTime;
+	private long mShotClock;
+	private long mDefaultShotClockTime;
 
-	private boolean mIsClockRunning;
+	private boolean mIsGameClockRunning;
+	private boolean mIsShotClockRunning;
     private CountDownTimer mGameTimer;
+	private CountDownTimer mShotClockTimer;
 }

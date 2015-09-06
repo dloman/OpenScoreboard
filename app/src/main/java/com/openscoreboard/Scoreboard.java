@@ -1,25 +1,24 @@
 package com.openscoreboard;
 
 
+import android.app.ActionBar;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.net.DhcpInfo;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
-import android.os.Message;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.Toast;
 
-import java.io.BufferedWriter;
 import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
@@ -30,9 +29,7 @@ import java.util.Set;
 
 
 public class Scoreboard extends ActionBarActivity implements
-        GameTimePickerDialog.NumberPickerDialogListener,
-        WifiSettingsDialog.WifiSettingsDialogListener,
-        AdapterView.OnItemSelectedListener
+        GameTimePickerDialog.NumberPickerDialogListener
 {
 	private ScoreboardData mScoreboardData;
 	
@@ -40,19 +37,57 @@ public class Scoreboard extends ActionBarActivity implements
     protected void onCreate(Bundle savedInstanceState) 
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.scoreboard_layout);
+        setContentView(R.layout.scoreboard);
         if (savedInstanceState == null) 
         {
-           mScoreboardData = new ScoreboardData();
+            mScoreboardData = new ScoreboardData();
         }
         else
         {
-        	mScoreboardData = savedInstanceState.getParcelable("mScoreboardData");
+            mScoreboardData = savedInstanceState.getParcelable("mScoreboardData");
         }
-        
-        ScoreboardActivity Activity = new ScoreboardActivity(mScoreboardData);
+
         mWifiManager = (WifiManager) getSystemService(Context.WIFI_SERVICE);
-        setContentView(Activity.loadView(this));
+        mViewPager = (ViewPager) findViewById(R.id.scoreboard);
+        mActionBar = getActionBar();
+        // Specify that tabs should be displayed in the action bar.
+        mActionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+
+        mViewPager.setAdapter(new SectionsPagerAdapter(getSupportFragmentManager()));
+
+        ActionBar.TabListener tabListener = new ActionBar.TabListener() {
+            public void onTabSelected(ActionBar.Tab tab, FragmentTransaction ft) {
+                // When the tab is selected, switch to the
+                // corresponding page in the ViewPager.
+                mViewPager.setCurrentItem(tab.getPosition());
+            }
+
+            @Override
+            public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
+            }
+
+            @Override
+            public void onTabReselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
+            }
+        };
+
+        mViewPager.setOnPageChangeListener(
+                new ViewPager.SimpleOnPageChangeListener()
+                {
+                    @Override
+                    public void onPageSelected(int position)
+                    {
+                        // When swiping between pages, select the
+                        // corresponding tab.
+                        getActionBar().setSelectedNavigationItem(position);
+                    }
+                });
+
+        String[] tabs = { "Score Board", "Shot Clock" };
+
+        for (String tab_name : tabs) {
+            mActionBar.addTab(mActionBar.newTab().setText(tab_name).setTabListener(tabListener));
+        }
     }
 
     @Override
@@ -72,17 +107,6 @@ public class Scoreboard extends ActionBarActivity implements
     {
         // User touched the dialog's negative button
     }
-
-    @Override
-    public void onDialogSetWifiSettings(String ssid, String password)
-        {
-
-        }
-
-    @Override
-    public void onDialogCancelWifiSettings(){
-        }
-
 
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState)
@@ -126,7 +150,8 @@ public class Scoreboard extends ActionBarActivity implements
         return super.onOptionsItemSelected(item);
     }
 
-    public static void sendScoreboardPacket(final String ScoreboardData) {
+    public static void sendScoreboardPacket(final String ScoreboardData)
+    {
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -134,6 +159,25 @@ public class Scoreboard extends ActionBarActivity implements
                     DatagramSocket socket = new DatagramSocket();
                     DatagramPacket datagramPacket =
                             new DatagramPacket(ScoreboardData.getBytes(), ScoreboardData.length(), getBroadcastAddress(), 33333);
+                    socket.setBroadcast(true);
+                    socket.send(datagramPacket);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        thread.start();
+    }
+
+    public static void sendShotClockPacket(final String ScoreboardData)
+    {
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    DatagramSocket socket = new DatagramSocket();
+                    DatagramPacket datagramPacket =
+                            new DatagramPacket(ScoreboardData.getBytes(), ScoreboardData.length(), getBroadcastAddress(), 11111);
                     socket.setBroadcast(true);
                     socket.send(datagramPacket);
                 } catch (Exception e) {
@@ -156,21 +200,32 @@ public class Scoreboard extends ActionBarActivity implements
         return InetAddress.getByAddress(quads);
     }
 
-    @Override
-    public void onItemSelected(AdapterView<?> parent, final View view, int pos, long id)
-    {
+    public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
-        int a = 69;
-    }
+        public SectionsPagerAdapter(FragmentManager fm) {
+            super(fm);
+        }
 
-    @Override
-    public void onNothingSelected(AdapterView<?> parent)
-    {
-        // Another interface callback
+        @Override
+        public Fragment getItem(int position) {
+            // getItem is called to instantiate the fragment for the given page.
+            // Return a PlaceholderFragment (defined as a static inner class below).
+            if (position == 1) {
+                return new ShotClockActivity(mScoreboardData);
+            } else {
+                return new ScoreboardActivity(mScoreboardData);
+            }
+        }
+
+
+        @Override
+        public int getCount() {
+            return 2;
+        }
     }
 
     static WifiManager mWifiManager;
-    SectionsPagerAdapter mSectionsPagerAdapter;
     ViewPager mViewPager;
+    ActionBar mActionBar;
 
 }

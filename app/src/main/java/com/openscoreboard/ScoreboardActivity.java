@@ -1,12 +1,14 @@
 package com.openscoreboard;
 
+import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 
-import android.content.Context;
-import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
@@ -14,22 +16,22 @@ import android.widget.TextView;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
-import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
-public class ScoreboardActivity extends FragmentActivity implements OnClickListener, View.OnLongClickListener
+public class ScoreboardActivity extends Fragment implements OnClickListener, View.OnLongClickListener
 {
-	ScoreboardActivity(ScoreboardData ScoreboardData)
-	{
-		ScoreboardActivity.mScoreboardData = ScoreboardData;
-	}
+    ScoreboardActivity(ScoreboardData ScoreboardData)
+    {
+        mScoreboardData = ScoreboardData;
+    }
 
-	public View loadView(Context context)
-	{
-        mScoreboardActivity = (ActionBarActivity) context;
-        View ScoreboardView = View.inflate(context, R.layout.scoreboard_layout, null);
-		
-		mAnimation = AnimationUtils.loadAnimation(context, R.anim.abc_slide_in_top);
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+    {
+        mScoreboardActivity = (ActionBarActivity) getActivity();
+        View ScoreboardView = inflater.inflate(R.layout.scoreboard_layout, container, false);
+
+		mAnimation = AnimationUtils.loadAnimation(getActivity(), R.anim.abc_slide_in_top);
 		mAnimation.setDuration(400);
 
 		mHomeScore = (TextView) ScoreboardView.findViewById(R.id.home_score_value);
@@ -85,16 +87,16 @@ public class ScoreboardActivity extends FragmentActivity implements OnClickListe
 			mScoreboardData.SetAwayScore(0);
 			break;
 		case R.id.start_game_clock:
-			if (mScoreboardData.IsClockRunning()) {
-                mScoreboardData.SetClockRunning(false);
+			if (mScoreboardData.IsGameClockRunning()) {
+                mScoreboardData.SetGameClockRunning(false);
             }
             else {
-                mScoreboardData.SetClockRunning(true);
+                mScoreboardData.SetGameClockRunning(true);
             }
 			break;
 		case R.id.reset_game_clock:
 			mScoreboardData.ResetGameClock();
-			mScoreboardData.SetClockRunning(false);
+			mScoreboardData.SetGameClockRunning(false);
             break;
 		}
 		UpdateScoreboard();
@@ -108,7 +110,7 @@ public class ScoreboardActivity extends FragmentActivity implements OnClickListe
             case R.id.game_clock_seconds_value:
             case R.id.game_clock_minutes_value:
                 ResetClock(false);
-                mScoreboardData.SetClockRunning(false);
+                mScoreboardData.SetGameClockRunning(false);
                 break;
             case R.id.reset_game_clock:
                 ResetClock(true);
@@ -128,7 +130,7 @@ public class ScoreboardActivity extends FragmentActivity implements OnClickListe
 		if (Integer.parseInt((String) mAwayScore.getText()) != mScoreboardData.GetAwayScore())
 		{
 		  mAwayScore.setText(String.valueOf(numberFormat.format(mScoreboardData.GetAwayScore())));
-		  mAwayScore.setAnimation(mAnimation);
+		  mAwayScore.startAnimation(mAnimation);
 		}
 
 		long GameTime = mScoreboardData.GetGameClock();
@@ -148,7 +150,7 @@ public class ScoreboardActivity extends FragmentActivity implements OnClickListe
 		  mGameClockMinutes.startAnimation(mAnimation);
 		}
 
-		if (mScoreboardData.IsClockRunning() && mScoreboardData.GetGameClock() != 0)
+		if (mScoreboardData.IsGameClockRunning() && mScoreboardData.GetGameClock() != 0)
 		{
 	      mClockStartStopButton.setText("Stop Clock");
 		}
@@ -184,11 +186,11 @@ public class ScoreboardActivity extends FragmentActivity implements OnClickListe
 
     private static ActionBarActivity mScoreboardActivity;
 	private static ScoreboardData mScoreboardData;
-	
+
 	private static Animation mAnimation;
-	
+
 	private static TextView mHomeScore;
-	
+
 	private static TextView mAwayScore;
 	
 	private static Button mClockStartStopButton;

@@ -3,7 +3,11 @@
     <style name="Score.Button.Small" parent="@android:style/Widget.Holo.Button">
         <item name="android:textSize">15sp</item>
     </style>
-    
+
+    <style name="Score.Button.Large" parent="@android:style/Widget.Holo.Button">
+        <item name="android:textSize">20sp</item>
+    </style>
+
     <style name="Score.TextAppearance.Large" parent="@android:style/TextAppearance.Holo.Large">
         <item name="android:textSize">50sp</item>
     </style>
@@ -11,7 +15,15 @@
     <style name="Score.TextAppearance.Large.Blue" parent="@style/Score.TextAppearance.Large">
         <item name="android:textColor">@android:color/holo_blue_light</item>
     </style>
-    
+
+    <style name="Score.TextAppearance.ExtraLarge" parent="@android:style/TextAppearance.Holo.Large">
+        <item name="android:textSize">75sp</item>
+    </style>
+
+    <style name="Score.TextAppearance.ExtraLarge.Blue" parent="@style/Score.TextAppearance.ExtraLarge">
+        <item name="android:textColor">@android:color/holo_blue_light</item>
+    </style>
+
     <style name="Score.TextAppearance.Medium" parent="@android:style/TextAppearance.Holo.Medium">
     </style>
     
