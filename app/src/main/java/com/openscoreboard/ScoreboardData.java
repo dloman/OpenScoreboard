@@ -13,18 +13,18 @@ public class ScoreboardData implements Parcelable
 		mGameClock = 0;
         mPeriodTime = 300000;
 	}
-	
+
 	public int GetHomeScore()
 	{
 		return mHomeScore;
 	}
-	
+
 	public void SetHomeScore(int HomeScore)
 	{
 		if(HomeScore < 0 || HomeScore > 99 )
 		{
 			this.mHomeScore = 0;
-			
+
 		}
 		else
 		{
@@ -36,7 +36,7 @@ public class ScoreboardData implements Parcelable
 	{
 		return mAwayScore;
 	}
-	
+
 	public void SetAwayScore(int AwayScore)
 	{
 
@@ -50,20 +50,20 @@ public class ScoreboardData implements Parcelable
             this.mAwayScore = AwayScore;
         }
 	}
-	
+
 	public long GetGameClock()
 	{
 		return this.mGameClock;
 	}
-	
+
 	public void SetGameClock(long GameClock) {
         mGameClock = GameClock;
         if (mGameTimer != null) {
             mGameTimer.cancel();
         }
         mGameTimer = new CountDownTimer(mGameClock, 100) {
-            public void onTick(long secondsUntilTimerFinished) {
-                mGameClock = secondsUntilTimerFinished;
+            public void onTick(long millisUntilTimerFinished) {
+                mGameClock = millisUntilTimerFinished;
                 ScoreboardActivity.UpdateScoreboard();
             }
 
@@ -83,7 +83,7 @@ public class ScoreboardData implements Parcelable
 	{
 		return mIsClockRunning;
 	}
-	
+
 	public void SetClockRunning(Boolean ClockBool)
 	{
 
@@ -105,7 +105,7 @@ public class ScoreboardData implements Parcelable
     {
         SetGameClock(mPeriodTime);
     }
-	
+
 	public void SetPeriodTime(long PeriodTime){ this.mPeriodTime = PeriodTime; }
 
     public long GetPeriodTime() { return mPeriodTime; }
@@ -117,7 +117,7 @@ public class ScoreboardData implements Parcelable
 	}
 
 	@Override
-	public void writeToParcel(Parcel arg0, int arg1) 
+	public void writeToParcel(Parcel arg0, int arg1)
 	{
 		arg0.writeInt(mHomeScore);
 		arg0.writeInt(mAwayScore);
@@ -127,20 +127,20 @@ public class ScoreboardData implements Parcelable
 	}
 
 	public static final Parcelable.Creator<ScoreboardData> CREATOR
-       = new Parcelable.Creator<ScoreboardData>() 
+       = new Parcelable.Creator<ScoreboardData>()
      {
-		public ScoreboardData createFromParcel(Parcel in) 
+		public ScoreboardData createFromParcel(Parcel in)
 		{
 			return new ScoreboardData(in);
 		}
 
-		public ScoreboardData[] newArray(int size) 
+		public ScoreboardData[] newArray(int size)
 		{
 			return new ScoreboardData[size];
 		}
      };
 
-	private ScoreboardData(Parcel arg0) 
+	private ScoreboardData(Parcel arg0)
 	{
 		mHomeScore = arg0.readInt();
 		mAwayScore = arg0.readInt();
@@ -151,7 +151,7 @@ public class ScoreboardData implements Parcelable
 
 	private int mHomeScore;
 	private int mAwayScore;
-	
+
 	private long mGameClock;
 	private long mPeriodTime;
 

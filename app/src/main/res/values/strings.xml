@@ -16,7 +16,11 @@
     <string name="separator">&#8226;</string>
     <string name="Minutes">Minutes</string>
     <string name="Seconds">Seconds</string>
+    <string name="ssid">Set SSID</string>
+    <string name="password">Set Password</string>
     <string name="Cancel">Cancel</string>
     <string name="setTime">Set Time</string>
+    <string name="setNetwork">Set Network Data</string>
     <string name="setPeriod">Set Period Time</string>
+    <string name="wifiSettings">Wifi Setup</string>
 </resources>

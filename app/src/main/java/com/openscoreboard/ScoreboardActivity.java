@@ -156,7 +156,15 @@ public class ScoreboardActivity extends FragmentActivity implements OnClickListe
 		{
 		  mClockStartStopButton.setText("Start Clock");
 		}
+		Scoreboard.sendScoreboardPacket(getScoreString());
 	}
+
+    private static String getScoreString()
+    {
+        return mHomeScore.getText() + "," + mAwayScore.getText() + "," + mGameClockMinutes.getText() + "," + mGameClockSeconds.getText();
+
+
+    }
 	
 	private void ResetClock(boolean resetPeriodTime)
     {
