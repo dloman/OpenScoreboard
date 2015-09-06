@@ -15,6 +15,7 @@
     <string name="zero">0</string>
     <string name="doubleZero">00</string>
     <string name="separator">&#8226;</string>
+    <string name="Value">Enter Value</string>
     <string name="Minutes">Minutes</string>
     <string name="Seconds">Seconds</string>
     <string name="ssid">Set SSID</string>

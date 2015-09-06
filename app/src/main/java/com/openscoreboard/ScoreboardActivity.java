@@ -36,27 +36,30 @@ public class ScoreboardActivity extends Fragment implements OnClickListener, Vie
 
 		mHomeScore = (TextView) ScoreboardView.findViewById(R.id.home_score_value);
 		mAwayScore = (TextView) ScoreboardView.findViewById(R.id.away_score_value);
+        mHomeScore.setOnLongClickListener(this);
+        mAwayScore.setOnLongClickListener(this);
+
 
 		mGameClockSeconds = (TextView) ScoreboardView.findViewById(R.id.game_clock_seconds_value);
 		mGameClockMinutes = (TextView) ScoreboardView.findViewById(R.id.game_clock_minutes_value);
 
-        mGameClockSeconds.setOnLongClickListener((android.view.View.OnLongClickListener) this);
-        mGameClockMinutes.setOnLongClickListener((android.view.View.OnLongClickListener) this);
+        mGameClockSeconds.setOnLongClickListener(this);
+        mGameClockMinutes.setOnLongClickListener(this);
 
-		((Button)ScoreboardView.findViewById(R.id.home_score_up)).setOnClickListener((android.view.View.OnClickListener) this);
-        ((Button)ScoreboardView.findViewById(R.id.home_score_down)).setOnClickListener((android.view.View.OnClickListener) this);
-        ((Button)ScoreboardView.findViewById(R.id.away_score_up)).setOnClickListener((android.view.View.OnClickListener) this);
-        ((Button)ScoreboardView.findViewById(R.id.away_score_down)).setOnClickListener((android.view.View.OnClickListener) this);
-        ((Button)ScoreboardView.findViewById(R.id.reset_home_score)).setOnClickListener((android.view.View.OnClickListener) this);
-        ((Button)ScoreboardView.findViewById(R.id.reset_away_score)).setOnClickListener((android.view.View.OnClickListener) this);
+		(ScoreboardView.findViewById(R.id.home_score_up)).setOnClickListener(this);
+        (ScoreboardView.findViewById(R.id.home_score_down)).setOnClickListener(this);
+        (ScoreboardView.findViewById(R.id.away_score_up)).setOnClickListener(this);
+        (ScoreboardView.findViewById(R.id.away_score_down)).setOnClickListener(this);
+        (ScoreboardView.findViewById(R.id.reset_away_score)).setOnClickListener(this);
+        (ScoreboardView.findViewById(R.id.reset_home_score)).setOnClickListener(this);
 
         mClockStartStopButton = ((Button)ScoreboardView.findViewById(R.id.start_game_clock));
-        mClockStartStopButton.setOnClickListener((android.view.View.OnClickListener) this);
+        mClockStartStopButton.setOnClickListener(this);
         
         
         mClockResetButton = ((Button)ScoreboardView.findViewById(R.id.reset_game_clock));
-        mClockResetButton.setOnClickListener((View.OnClickListener) this);
-        mClockResetButton.setOnLongClickListener((android.view.View.OnLongClickListener) this);
+        mClockResetButton.setOnClickListener(this);
+        mClockResetButton.setOnLongClickListener(this);
         UpdateScoreboard();
         
         return ScoreboardView;
@@ -115,6 +118,12 @@ public class ScoreboardActivity extends Fragment implements OnClickListener, Vie
             case R.id.reset_game_clock:
                 ResetClock(true);
                 break;
+            case R.id.home_score_value:
+                ResetScore(true);
+                break;
+            case R.id.away_score_value:
+                ResetScore(false);
+                break;
         }
         return true;
     }
@@ -167,7 +176,7 @@ public class ScoreboardActivity extends Fragment implements OnClickListener, Vie
 
 
     }
-	
+
 	private void ResetClock(boolean resetPeriodTime)
     {
         String title = "Set Game Time";
@@ -184,6 +193,23 @@ public class ScoreboardActivity extends Fragment implements OnClickListener, Vie
         dialogFragment.show(mScoreboardActivity.getSupportFragmentManager(), "TimeEditor");
     }
 
+    private void ResetScore(boolean home)
+    {
+        String title = "Set Away Score";
+        NumberPickerDialog.NumberPickerReasons numberPickerReasons=
+                NumberPickerDialog.NumberPickerReasons.eSetAwayScore;
+        long initialValue = mScoreboardData.GetAwayScore();
+        if (home)
+        {
+            title = "Set Home Score";
+            numberPickerReasons = NumberPickerDialog.NumberPickerReasons.eSetHomeScore;
+            initialValue = mScoreboardData.GetHomeScore();
+        }
+
+        DialogFragment dialogFragment =
+                NumberPickerDialog.createInstance(title, "Score", initialValue, numberPickerReasons);
+        dialogFragment.show(mScoreboardActivity.getSupportFragmentManager(), "NumberEditor");
+    }
     private static ActionBarActivity mScoreboardActivity;
 	private static ScoreboardData mScoreboardData;
 

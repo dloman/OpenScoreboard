@@ -14,13 +14,13 @@ import java.util.concurrent.TimeUnit;
 
 public class GameTimePickerDialog extends DialogFragment {
 
-    public interface NumberPickerDialogListener {
+    public interface GameTimePickerDialogListener {
         public void onDialogPositiveClick(int Minutes, int Seconds, boolean resetPeriodTime);
         public void onDialogNegativeClick();
     }
 
     // Use this instance of the interface to deliver action events
-    NumberPickerDialogListener mListener;
+    GameTimePickerDialogListener mListener;
 
     public static GameTimePickerDialog createInstance(String title, long currentPeriodTime, boolean resetPeriodTime)
     {
@@ -40,7 +40,7 @@ public class GameTimePickerDialog extends DialogFragment {
         // Verify that the host activity implements the callback interface
         try {
             // Instantiate the NoticeDialogListener so we can send events to the host
-            mListener = (NumberPickerDialogListener) activity;
+            mListener = (GameTimePickerDialogListener) activity;
         } catch (ClassCastException e) {
             // The activity doesn't implement the interface, throw exception
             throw new ClassCastException(activity.toString()

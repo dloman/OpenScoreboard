@@ -1,5 +1,6 @@
 package com.openscoreboard;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -122,17 +123,20 @@ public class ShotClockActivity extends Fragment implements OnClickListener, View
         return mShotClock.getText().toString();
     }
 	
-	private void ResetClock(boolean resetDefaultTime)
-    {
+	private void ResetClock(boolean resetDefaultTime) {
         String title = "Set Current Shot Clock Time";
-		Long initialTimePickerValue = mScoreboardData.GetShotClock();
+        NumberPickerDialog.NumberPickerReasons numberPickerReasons =
+                NumberPickerDialog.NumberPickerReasons.eSetCurrentShotClock;
+        Long initialTimePickerValue = mScoreboardData.GetShotClock();
         if (resetDefaultTime) {
             title = "Set Default Shot Clock Time";
-			initialTimePickerValue = mScoreboardData.GetDefaultShotClockTime();
+            initialTimePickerValue = mScoreboardData.GetDefaultShotClockTime();
+            numberPickerReasons = NumberPickerDialog.NumberPickerReasons.eSetDefaultShotClock;
         }
+
         DialogFragment dialogFragment =
-                GameTimePickerDialog.createInstance(title, initialTimePickerValue, resetDefaultTime);
-        dialogFragment.show(mShotClockActivity.getSupportFragmentManager(), "TimeEditor");
+                NumberPickerDialog.createInstance(title, "Time", initialTimePickerValue, numberPickerReasons);
+        dialogFragment.show(mShotClockActivity.getSupportFragmentManager(), "NumberEditor");
     }
 
     private static ActionBarActivity mShotClockActivity;

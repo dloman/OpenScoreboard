@@ -29,7 +29,8 @@ import java.util.Set;
 
 
 public class Scoreboard extends ActionBarActivity implements
-        GameTimePickerDialog.NumberPickerDialogListener
+        GameTimePickerDialog.GameTimePickerDialogListener,
+        NumberPickerDialog.NumberPickerDialogListener
 {
 	private ScoreboardData mScoreboardData;
 	
@@ -72,11 +73,9 @@ public class Scoreboard extends ActionBarActivity implements
         };
 
         mViewPager.setOnPageChangeListener(
-                new ViewPager.SimpleOnPageChangeListener()
-                {
+                new ViewPager.SimpleOnPageChangeListener() {
                     @Override
-                    public void onPageSelected(int position)
-                    {
+                    public void onPageSelected(int position) {
                         // When swiping between pages, select the
                         // corresponding tab.
                         getActionBar().setSelectedNavigationItem(position);
@@ -100,6 +99,26 @@ public class Scoreboard extends ActionBarActivity implements
             mScoreboardData.SetPeriodTime(((Minutes * 60) + Seconds) * 1000);
         }
         ScoreboardActivity.UpdateScoreboard();
+    }
+
+    @Override
+    public void onDialogPositiveClick(int Value, NumberPickerDialog.NumberPickerReasons reason)
+    {
+        int timeConverter = 1;
+        switch (reason)
+        {
+            case eSetDefaultShotClock:
+                timeConverter = 1000;
+                break;
+            case eSetCurrentShotClock:
+                timeConverter = 1000;
+                break;
+            case eSetAwayScore:
+                timeConverter = 1;
+                break;
+            case eSetHomeScore:
+                break;
+        }
     }
 
     @Override
