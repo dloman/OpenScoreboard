@@ -3,6 +3,7 @@
     <string name="app_name">OpenScoreboard</string>
     <string name="home">Home</string>
     <string name="away">Visitor</string>
+    <string name="quarter">Quarter</string>
     <string name="game_clock">Game Clock</string>
     <string name="shot_clock">Shot Clock</string>
     <string name="start_game_clock">Start Game</string>

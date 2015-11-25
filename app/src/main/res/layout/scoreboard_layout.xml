@@ -69,15 +69,59 @@
                 </FrameLayout>
             </LinearLayout>
 
-            <ImageView
-                android:id="@+id/imageView1"
+            <LinearLayout
+                android:orientation="vertical"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:background="@drawable/board"
                 android:layout_gravity="bottom"
-                android:layout_marginBottom="25dp"
-                android:layout_weight="1"
-                android:contentDescription="@string/separator"
-                android:src="@drawable/bullet" />
+                android:id="@+id/linearLayout"
+                android:layout_weight="0.34">
+
+                <TextView
+                    android:id="@+id/quarter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginBottom="15dp"
+                    android:maxLines="1"
+                    android:text="@string/quarter"
+                    android:textAppearance="@style/Score.TextAppearance.Small"/>
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <Button
+                        style="@style/Score.Button.XtraSmall"
+                        android:id="@+id/quarter_down"
+                        android:layout_width="@dimen/buttonXtraSmallDim"
+                        android:layout_height="@dimen/buttonXtraSmallDim"
+                        android:text="@string/minus"
+                        android:layout_gravity="center_vertical"/>
+
+                    <TextView
+                        android:id="@+id/quarter_value"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:maxLines="1"
+                        android:text="@string/zero"
+                        android:textAppearance="@style/Score.TextAppearance.MediumLarge.Blue"
+                        />
+
+                    <Button
+                        style="@style/Score.Button.XtraSmall"
+                        android:id="@+id/quarter_up"
+                        android:layout_width="@dimen/buttonXtraSmallDim"
+                        android:layout_height="@dimen/buttonXtraSmallDim"
+                        android:text="@string/plus"
+                        android:layout_gravity="center_vertical"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -139,7 +183,7 @@
             <Button
                 android:id="@+id/reset_home_score"
                 style="@style/Score.Button.Small"
-                android:layout_width="139dp"
+                android:layout_width="181dp"
                 android:layout_height="@dimen/buttonSmallDim"
                 android:layout_marginTop="15dp"
                 android:text="@string/reset_score" />
