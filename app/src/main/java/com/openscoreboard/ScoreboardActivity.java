@@ -20,14 +20,14 @@ import java.util.concurrent.TimeUnit;
 
 public class ScoreboardActivity extends Fragment implements OnClickListener, View.OnLongClickListener
 {
-    ScoreboardActivity(ScoreboardData ScoreboardData)
-    {
-        mScoreboardData = ScoreboardData;
-    }
+    public ScoreboardActivity() {}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
+        Bundle bundle = getArguments();
+        mScoreboardData = bundle.getParcelable("ScoreboardData");
+
         mScoreboardActivity = (ActionBarActivity) getActivity();
         View ScoreboardView = inflater.inflate(R.layout.scoreboard_layout, container, false);
 
@@ -167,14 +167,12 @@ public class ScoreboardActivity extends Fragment implements OnClickListener, Vie
 		{
 		  mClockStartStopButton.setText("Start Clock");
 		}
-		Scoreboard.sendScoreboardPacket(getScoreString());
+        Scoreboard.sendPacket(getScoreString(), Scoreboard.PacketType.eScoreboard);
 	}
 
     private static String getScoreString()
     {
         return mHomeScore.getText() + "," + mAwayScore.getText() + "," + mGameClockMinutes.getText() + "," + mGameClockSeconds.getText();
-
-
     }
 
 	private void ResetClock(boolean resetPeriodTime)

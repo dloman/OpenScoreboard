@@ -23,23 +23,22 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.util.ArrayList;
-import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Set;
 
 
 public class Scoreboard extends ActionBarActivity implements
         GameTimePickerDialog.GameTimePickerDialogListener,
-        NumberPickerDialog.NumberPickerDialogListener
+        NumberPickerDialog.NumberPickerDialogListener,
+        WifiSettingsDialog.WifiSettingsDialogListener
 {
-	private ScoreboardData mScoreboardData;
-	
+    private ScoreboardData mScoreboardData;
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) 
+    protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.scoreboard);
-        if (savedInstanceState == null) 
+        if (savedInstanceState == null)
         {
             mScoreboardData = new ScoreboardData();
         }
@@ -102,21 +101,25 @@ public class Scoreboard extends ActionBarActivity implements
     }
 
     @Override
-    public void onDialogPositiveClick(int Value, NumberPickerDialog.NumberPickerReasons reason)
+    public void onDialogPositiveClick(int value, NumberPickerDialog.NumberPickerReasons reason)
     {
-        int timeConverter = 1;
         switch (reason)
         {
             case eSetDefaultShotClock:
-                timeConverter = 1000;
+                mScoreboardData.SetDefaultShotClockTime(value * 1000);
+                ShotClockActivity.UpdateShotClock();
                 break;
             case eSetCurrentShotClock:
-                timeConverter = 1000;
+                mScoreboardData.SetShotClock(value * 1000);
+                ShotClockActivity.UpdateShotClock();
                 break;
             case eSetAwayScore:
-                timeConverter = 1;
+                mScoreboardData.SetAwayScore(value);
+                ScoreboardActivity.UpdateScoreboard();
                 break;
             case eSetHomeScore:
+                mScoreboardData.SetHomeScore(value);
+                ScoreboardActivity.UpdateScoreboard();
                 break;
         }
     }
@@ -130,7 +133,7 @@ public class Scoreboard extends ActionBarActivity implements
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState)
     {
-      savedInstanceState.putParcelable("mScoreboardData", mScoreboardData);
+        savedInstanceState.putParcelable("mScoreboardData", mScoreboardData);
     }
 
 
@@ -143,64 +146,50 @@ public class Scoreboard extends ActionBarActivity implements
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) 
+    public boolean onOptionsItemSelected(MenuItem item)
     {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        switch (item.getItemId())
-        {
+        switch (item.getItemId()) {
             case R.id.wifisettings:
                 String currentSsid = mWifiManager.getConnectionInfo().getSSID();
                 List<ScanResult> wifiScanList = mWifiManager.getScanResults();
                 ArrayList<String> ssidList = new ArrayList<String>();
-                Set<String> ssidSet = new LinkedHashSet<String>(ssidList);
-                ssidList.clear();
-                ssidList.addAll(ssidSet);
                 for (int i = 0; i < wifiScanList.size(); i++) {
-                    ssidList.add(wifiScanList.get(i).SSID);
+                    if (!ssidList.contains(wifiScanList.get(i).SSID)) {
+                        ssidList.add(wifiScanList.get(i).SSID);
+                    }
                 }
                 ssidList.add("Enter Additional Network");
                 DialogFragment dialogFragment =
                         WifiSettingsDialog.createInstance(ssidList, currentSsid);
-                dialogFragment.show(this.getSupportFragmentManager(), "TimeEditor");
+                dialogFragment.show(getSupportFragmentManager(), "WifiSettings");
                 break;
         }
         return super.onOptionsItemSelected(item);
     }
 
-    public static void sendScoreboardPacket(final String ScoreboardData)
+    public static void sendPacket(final String data, PacketType packetType)
     {
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    DatagramSocket socket = new DatagramSocket();
-                    DatagramPacket datagramPacket =
-                            new DatagramPacket(ScoreboardData.getBytes(), ScoreboardData.length(), getBroadcastAddress(), 33333);
-                    socket.setBroadcast(true);
-                    socket.send(datagramPacket);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-        thread.start();
-    }
+        final int port = packetType.portNumber;
 
-    public static void sendShotClockPacket(final String ScoreboardData)
-    {
+
         Thread thread = new Thread(new Runnable() {
+            private DatagramSocket mSocket;
+            private DatagramPacket mDatagramPacket;
+
             @Override
             public void run() {
                 try {
-                    DatagramSocket socket = new DatagramSocket();
-                    DatagramPacket datagramPacket =
-                            new DatagramPacket(ScoreboardData.getBytes(), ScoreboardData.length(), getBroadcastAddress(), 11111);
-                    socket.setBroadcast(true);
-                    socket.send(datagramPacket);
+                    mSocket = new DatagramSocket();
+                    mDatagramPacket = new DatagramPacket(data.getBytes(), data.length(), getBroadcastAddress(), port);
+                    mSocket.setBroadcast(true);
+                    mSocket.send(mDatagramPacket);
+                    mSocket.close();
                 } catch (Exception e) {
                     e.printStackTrace();
+                    int a = 56;
                 }
             }
         });
@@ -219,6 +208,15 @@ public class Scoreboard extends ActionBarActivity implements
         return InetAddress.getByAddress(quads);
     }
 
+    @Override
+    public void onDialogSetWifiSettings(String ssid, String password) {
+        String stuff = "yo";
+        sendPacket(stuff, PacketType.eWifiSettings );
+    }
+
+    @Override
+    public void onDialogCancelWifiSettings() {}
+
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
         public SectionsPagerAdapter(FragmentManager fm) {
@@ -226,16 +224,20 @@ public class Scoreboard extends ActionBarActivity implements
         }
 
         @Override
-        public Fragment getItem(int position) {
-            // getItem is called to instantiate the fragment for the given page.
-            // Return a PlaceholderFragment (defined as a static inner class below).
+        public Fragment getItem(int position)
+        {
+            Bundle bundle = new Bundle();
+            bundle.putParcelable("ScoreboardData", mScoreboardData);
             if (position == 1) {
-                return new ShotClockActivity(mScoreboardData);
+                ShotClockActivity shotClockActivity = new ShotClockActivity();
+                shotClockActivity.setArguments(bundle);
+                return shotClockActivity;
             } else {
-                return new ScoreboardActivity(mScoreboardData);
+                ScoreboardActivity scoreboardActivity = new ScoreboardActivity();
+                scoreboardActivity.setArguments(bundle);
+                return scoreboardActivity;
             }
         }
-
 
         @Override
         public int getCount() {
@@ -246,5 +248,16 @@ public class Scoreboard extends ActionBarActivity implements
     static WifiManager mWifiManager;
     ViewPager mViewPager;
     ActionBar mActionBar;
+    public enum PacketType {
+        eScoreboard (33333),
+        eShotClock (11111),
+        eWifiSettings (22222);
+
+        private int portNumber;
+
+        PacketType(int portNumber) {
+            this.portNumber = portNumber;
+        }
+    }
 
 }

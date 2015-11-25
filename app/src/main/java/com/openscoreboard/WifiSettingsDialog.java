@@ -120,7 +120,7 @@ public class WifiSettingsDialog extends DialogFragment {
 
         @Override
         public void onNothingSelected(AdapterView<?> parent) {
-            Toast.makeText(getActivity(),"Nothing Selected", Toast.LENGTH_SHORT).show();
+
         }
     };
 

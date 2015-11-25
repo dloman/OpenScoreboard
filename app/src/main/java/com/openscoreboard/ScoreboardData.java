@@ -97,6 +97,16 @@ public class ScoreboardData implements Parcelable
 		}
 	}
 
+	public void ResetGameClock()
+	{
+		SetGameClock(mPeriodTime);
+	}
+
+	public void SetPeriodTime(long PeriodTime){ this.mPeriodTime = PeriodTime; }
+
+	public long GetPeriodTime() { return mPeriodTime; }
+
+
 	public long GetShotClock() { return mShotClock; }
 
 	public void SetShotClock(long ShotClock) {
@@ -142,19 +152,11 @@ public class ScoreboardData implements Parcelable
 		}
 	}
 
-    public void ResetGameClock()
-    {
-        SetGameClock(mPeriodTime);
-    }
-
 	public void ResetShotClock()
 	{
 		SetShotClock(mDefaultShotClockTime);
 	}
 
-	public void SetPeriodTime(long PeriodTime){ this.mPeriodTime = PeriodTime; }
-
-    public long GetPeriodTime() { return mPeriodTime; }
 
 	public void SetDefaultShotClockTime(long DefaultShotClockTime)
 	{

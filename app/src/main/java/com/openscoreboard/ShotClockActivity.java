@@ -22,20 +22,18 @@ import java.util.concurrent.TimeUnit;
 public class ShotClockActivity extends Fragment implements OnClickListener, View.OnLongClickListener
 {
 
-    ShotClockActivity(ScoreboardData ScoreboardData)
-    {
-        mScoreboardData = ScoreboardData;
-    }
+    public ShotClockActivity() {}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
+        Bundle bundle = getArguments();
+        mScoreboardData = bundle.getParcelable("ScoreboardData");
         mShotClockActivity = (ActionBarActivity) getActivity();
         View ShotClockView = inflater.inflate(R.layout.shotclock_layout, container, false);
 
 		mAnimation = AnimationUtils.loadAnimation(getActivity(), R.anim.abc_slide_in_top);
 		mAnimation.setDuration(400);
-
 
 		mShotClock = (TextView) ShotClockView.findViewById(R.id.shotclock_value);
 
@@ -73,7 +71,6 @@ public class ShotClockActivity extends Fragment implements OnClickListener, View
 			break;
 		case R.id.shotclock_reset:
 			mScoreboardData.ResetShotClock();
-			mScoreboardData.SetShotClockRunning(false);
             break;
 		}
 		UpdateShotClock();
@@ -106,7 +103,7 @@ public class ShotClockActivity extends Fragment implements OnClickListener, View
 		{
 		    mShotClock.setText(String.valueOf(numberFormat.format(shotClockTime)));
             mShotClock.startAnimation(mAnimation);
-            Scoreboard.sendShotClockPacket(getShotClockString());
+            Scoreboard.sendPacket(getShotClockString(), Scoreboard.PacketType.eShotClock);
 		}
 		if (mScoreboardData.IsShotClockRunning() && mScoreboardData.GetShotClock() != 0)
 		{
