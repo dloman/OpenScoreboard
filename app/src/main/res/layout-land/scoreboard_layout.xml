@@ -200,7 +200,7 @@
                 android:id="@+id/testviewQuarter"
                 android:text="@string/quarter"
                 android:gravity="center_horizontal"
-                android:textAppearance="@style/Score.TextAppearance.Medium"
+                android:textAppearance="@style/Score.TextAppearance.Small"
                 android:layout_gravity="center_horizontal"/>
 
             <LinearLayout
@@ -235,6 +235,13 @@
                     android:text="@string/plus"
                     android:layout_gravity="center_vertical"/>
             </LinearLayout>
+
+            <Button
+                style="@style/Score.Button.Small"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/reset_quarter"
+                android:id="@+id/reset_quarter"/>
 
         </LinearLayout>
 
