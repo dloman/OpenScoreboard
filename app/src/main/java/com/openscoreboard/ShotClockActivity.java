@@ -124,15 +124,17 @@ public class ShotClockActivity extends Fragment implements OnClickListener, View
         String title = "Set Current Shot Clock Time";
         NumberPickerDialog.NumberPickerReasons numberPickerReasons =
                 NumberPickerDialog.NumberPickerReasons.eSetCurrentShotClock;
+        int maxValue = (int)mScoreboardData.GetDefaultShotClockTime()/1000;
         Long initialTimePickerValue = mScoreboardData.GetShotClock();
         if (resetDefaultTime) {
             title = "Set Default Shot Clock Time";
             initialTimePickerValue = mScoreboardData.GetDefaultShotClockTime();
             numberPickerReasons = NumberPickerDialog.NumberPickerReasons.eSetDefaultShotClock;
+            maxValue = 99;
         }
 
         DialogFragment dialogFragment =
-                NumberPickerDialog.createInstance(title, "Time", initialTimePickerValue, numberPickerReasons);
+                NumberPickerDialog.createInstance(title, "Time", initialTimePickerValue, numberPickerReasons, maxValue);
         dialogFragment.show(mShotClockActivity.getSupportFragmentManager(), "NumberEditor");
     }
 

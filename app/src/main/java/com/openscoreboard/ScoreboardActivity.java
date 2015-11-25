@@ -220,7 +220,7 @@ public class ScoreboardActivity extends Fragment implements OnClickListener, Vie
         }
 
         DialogFragment dialogFragment =
-                NumberPickerDialog.createInstance(title, "Score", initialValue, numberPickerReasons);
+                NumberPickerDialog.createInstance(title, "Score", initialValue, numberPickerReasons, 99);
         dialogFragment.show(mScoreboardActivity.getSupportFragmentManager(), "NumberEditor");
     }
     private static ActionBarActivity mScoreboardActivity;

@@ -154,7 +154,7 @@ public class ScoreboardData implements Parcelable
 
 	public void ResetShotClock()
 	{
-		SetShotClock(mDefaultShotClockTime);
+		SetShotClock(mDefaultShotClockTime + 999);
 	}
 
 

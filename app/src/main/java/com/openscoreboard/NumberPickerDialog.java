@@ -23,7 +23,7 @@ public class NumberPickerDialog extends DialogFragment {
     // Use this instance of the interface to deliver action events
     NumberPickerDialogListener mListener;
 
-    public static NumberPickerDialog createInstance(String title, String simpleTitle, long currentValue, NumberPickerReasons reasons)
+    public static NumberPickerDialog createInstance(String title, String simpleTitle, long currentValue, NumberPickerReasons reasons, int maxValue)
     {
         NumberPickerDialog dialog = new NumberPickerDialog();
         Bundle args = new Bundle();
@@ -31,6 +31,7 @@ public class NumberPickerDialog extends DialogFragment {
         args.putString("title", title);
         args.putString("simpleTitle", simpleTitle);
         args.putLong("currentValue", currentValue);
+        args.putInt("maxValue", maxValue);
         dialog.setArguments(args);
         return dialog;
     }
@@ -82,6 +83,7 @@ public class NumberPickerDialog extends DialogFragment {
             }
         });
         long currentValue = getArguments().getLong("currentValue");
+        int maxValue = getArguments().getInt("maxValue");
         int value = 0;
         switch ((NumberPickerReasons)getArguments().getSerializable("reasons"))
         {
@@ -95,10 +97,10 @@ public class NumberPickerDialog extends DialogFragment {
                 break;
         }
         mPicker = (NumberPicker) view.findViewById(R.id.SetValueNumberPicker);
-        mPicker.setValue(value);
-        mPicker.setMaxValue(99);
+        mPicker.setMaxValue(maxValue);
         mPicker.setMinValue(0);
         mPicker.setWrapSelectorWheel(true);
+        mPicker.setValue(value);
 
         builder.setView(view);
         return builder.create();
