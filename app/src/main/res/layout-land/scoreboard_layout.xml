@@ -12,7 +12,8 @@
         android:orientation="vertical"
         android:layout_centerVertical="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="15dp">
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -82,7 +83,7 @@
         </LinearLayout>
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/board"
         android:orientation="vertical"
@@ -90,101 +91,153 @@
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true">
 
-        <TextView
-            android:id="@+id/textView3"
+        <LinearLayout
+            android:orientation="vertical"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:background="@drawable/board"
             android:layout_gravity="center_horizontal"
-            android:gravity="center"
-            android:text="@string/game_clock"
-            android:textAppearance="@style/Score.TextAppearance.Medium" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/ClockLayout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:text="@string/game_clock"
-            android:textAppearance="@style/Score.TextAppearance.Medium" />
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:orientation="horizontal" >
+            android:layout_margin="6dp">
 
             <TextView
-                android:id="@+id/game_clock_minutes_value"
+                android:id="@+id/textView3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:maxLines="1"
-                android:text="@string/doubleZero"
-                android:textAppearance="@style/Score.TextAppearance.Large.Blue" />
+                android:gravity="center"
+                android:text="@string/game_clock"
+                android:textAppearance="@style/Score.TextAppearance.Medium" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:orientation="vertical" >
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:orientation="horizontal" >
 
-                <ImageView
-                    android:id="@+id/imageView2"
+                <TextView
+                    android:id="@+id/game_clock_minutes_value"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="1dp"
-                    android:layout_weight="1"
-                    android:contentDescription="@string/separator"
-                    android:src="@drawable/bullet" />
+                    android:layout_gravity="center_horizontal"
+                    android:maxLines="1"
+                    android:text="@string/doubleZero"
+                    android:textAppearance="@style/Score.TextAppearance.Large.Blue" />
 
-                <ImageView
-                    android:id="@+id/imageView3"
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical" >
+
+                    <ImageView
+                        android:id="@+id/imageView2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="1dp"
+                        android:layout_weight="1"
+                        android:contentDescription="@string/separator"
+                        android:src="@drawable/bullet" />
+
+                    <ImageView
+                        android:id="@+id/imageView3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="1dp"
+                        android:layout_weight="1"
+                        android:contentDescription="@string/separator"
+                        android:src="@drawable/bullet" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/game_clock_seconds_value"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="1dp"
-                    android:layout_weight="1"
-                    android:contentDescription="@string/separator"
-                    android:src="@drawable/bullet" />
+                    android:layout_gravity="center_horizontal"
+                    android:maxLines="1"
+                    android:text="@string/doubleZero"
+                    android:textAppearance="@style/Score.TextAppearance.Large.Blue" />
+
             </LinearLayout>
 
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="34dp"
+                android:orientation="horizontal"
+                android:layout_gravity="center_vertical"
+                android:gravity="fill">
+
+                <Button
+                    android:id="@+id/start_game_clock"
+                    style="@style/Score.Button.Small"
+                    android:layout_width="fill_parent"
+                    android:layout_height="@dimen/buttonSmallDim"
+                    android:layout_marginTop="15dp"
+                    android:text="@string/start_game_clock"
+                    android:gravity="top"/>
+
+                <Button
+                    android:id="@+id/reset_game_clock"
+                    style="@style/Score.Button.Small"
+                    android:layout_width="fill_parent"
+                    android:layout_height="@dimen/buttonSmallDim"
+                    android:layout_marginTop="15dp"
+                    android:text="@string/reset_game_clock"
+                    android:gravity="center_vertical"/>
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:layout_gravity="center_horizontal"
+                      android:background="@drawable/board"
+                      android:orientation="vertical">
+
             <TextView
-                android:id="@+id/game_clock_seconds_value"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:maxLines="1"
-                android:text="@string/doubleZero"
-                android:textAppearance="@style/Score.TextAppearance.Large.Blue" />
+                android:id="@+id/testviewQuarter"
+                android:text="@string/quarter"
+                android:gravity="center_horizontal"
+                android:textAppearance="@style/Score.TextAppearance.Medium"
+                android:layout_gravity="center_horizontal"/>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_horizontal">
+
+                <Button
+                    style="@style/Score.Button.Small"
+                    android:id="@+id/quarter_down"
+                    android:layout_width="@dimen/buttonSmallDim"
+                    android:layout_height="@dimen/buttonSmallDim"
+                    android:text="@string/minus"
+                    android:layout_gravity="center_vertical"/>
+
+                <TextView
+                    android:id="@+id/quarter_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:maxLines="1"
+                    android:text="@string/zero"
+                    android:textAppearance="@style/Score.TextAppearance.Large.Blue"
+                    />
+
+                <Button
+                    style="@style/Score.Button.Small"
+                    android:id="@+id/quarter_up"
+                    android:layout_width="@dimen/buttonSmallDim"
+                    android:layout_height="@dimen/buttonSmallDim"
+                    android:text="@string/plus"
+                    android:layout_gravity="center_vertical"/>
+            </LinearLayout>
 
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:orientation="horizontal" >
-
-            <Button
-                android:id="@+id/start_game_clock"
-                style="@style/Score.Button.Small"
-                android:layout_width="fill_parent"
-                android:layout_height="@dimen/buttonSmallDim"
-                android:layout_marginTop="15dp"
-                android:text="@string/start_game_clock" />
-
-            <Button
-                android:id="@+id/reset_game_clock"
-                style="@style/Score.Button.Small"
-                android:layout_width="fill_parent"
-                android:layout_height="@dimen/buttonSmallDim"
-                android:layout_marginTop="15dp"
-                android:text="@string/reset_game_clock" />
-        </LinearLayout>
     </LinearLayout>
 
     <LinearLayout
@@ -193,9 +246,11 @@
         android:layout_height="wrap_content"
         android:background="@drawable/board"
         android:orientation="vertical"
-        android:layout_alignTop="@+id/linearLayout"
+        android:gravity="center"
+        android:layout_centerVertical="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true">
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="15dp">
 
         <LinearLayout
             android:layout_width="wrap_content"

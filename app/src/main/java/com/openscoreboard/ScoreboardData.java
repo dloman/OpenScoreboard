@@ -165,6 +165,16 @@ public class ScoreboardData implements Parcelable
 
 	public long GetDefaultShotClockTime() { return mDefaultShotClockTime; }
 
+    public void SetQuarter(int Quarter)
+    {
+        if (Quarter >= 0)
+        {
+            mQuarter = Quarter;
+        }
+    }
+
+    public int GetQuarter() { return mQuarter;}
+
     @Override
 	public int describeContents() {
 		// TODO Auto-generated method stub
@@ -176,6 +186,7 @@ public class ScoreboardData implements Parcelable
 	{
 		arg0.writeInt(mHomeScore);
 		arg0.writeInt(mAwayScore);
+        arg0.writeInt(mQuarter);
 		arg0.writeLong(mGameClock);
 		arg0.writeLong(mShotClock);
         arg0.writeLong(mPeriodTime);
@@ -202,6 +213,7 @@ public class ScoreboardData implements Parcelable
 	{
 		mHomeScore = arg0.readInt();
 		mAwayScore = arg0.readInt();
+        mQuarter = arg0.readInt();
 		mGameClock = arg0.readLong();
 		mShotClock = arg0.readLong();
         mPeriodTime = arg0.readLong();
@@ -212,6 +224,7 @@ public class ScoreboardData implements Parcelable
 
 	private int mHomeScore;
 	private int mAwayScore;
+    private int mQuarter;
 
 	private long mGameClock;
 	private long mPeriodTime;

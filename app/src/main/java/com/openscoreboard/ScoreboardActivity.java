@@ -36,6 +36,9 @@ public class ScoreboardActivity extends Fragment implements OnClickListener, Vie
 
 		mHomeScore = (TextView) ScoreboardView.findViewById(R.id.home_score_value);
 		mAwayScore = (TextView) ScoreboardView.findViewById(R.id.away_score_value);
+
+        mQuarter = (TextView) ScoreboardView.findViewById(R.id.quarter_value);
+
         mHomeScore.setOnLongClickListener(this);
         mAwayScore.setOnLongClickListener(this);
 
@@ -52,6 +55,9 @@ public class ScoreboardActivity extends Fragment implements OnClickListener, Vie
         (ScoreboardView.findViewById(R.id.away_score_down)).setOnClickListener(this);
         (ScoreboardView.findViewById(R.id.reset_away_score)).setOnClickListener(this);
         (ScoreboardView.findViewById(R.id.reset_home_score)).setOnClickListener(this);
+        (ScoreboardView.findViewById(R.id.quarter_up)).setOnClickListener(this);
+        (ScoreboardView.findViewById(R.id.quarter_down)).setOnClickListener(this);
+
 
         mClockStartStopButton = ((Button)ScoreboardView.findViewById(R.id.start_game_clock));
         mClockStartStopButton.setOnClickListener(this);
@@ -101,7 +107,13 @@ public class ScoreboardActivity extends Fragment implements OnClickListener, Vie
 			mScoreboardData.ResetGameClock();
 			mScoreboardData.SetGameClockRunning(false);
             break;
-		}
+        case R.id.quarter_up:
+            mScoreboardData.SetQuarter(mScoreboardData.GetQuarter() + 1);
+            break;
+        case R.id.quarter_down:
+            mScoreboardData.SetQuarter(mScoreboardData.GetQuarter() - 1);
+            break;
+        }
 		UpdateScoreboard();
 	}
 
@@ -167,6 +179,9 @@ public class ScoreboardActivity extends Fragment implements OnClickListener, Vie
 		{
 		  mClockStartStopButton.setText("Start Clock");
 		}
+
+        mQuarter.setText(String.valueOf(mScoreboardData.GetQuarter()));
+
         Scoreboard.sendPacket(getScoreString(), Scoreboard.PacketType.eScoreboard);
 	}
 
@@ -216,6 +231,8 @@ public class ScoreboardActivity extends Fragment implements OnClickListener, Vie
 	private static TextView mHomeScore;
 
 	private static TextView mAwayScore;
+
+    private static TextView mQuarter;
 	
 	private static Button mClockStartStopButton;
 	private static Button mClockResetButton;
