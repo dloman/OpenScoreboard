@@ -65,11 +65,21 @@ public class WifiSettingsDialog extends DialogFragment {
 
         ArrayList<String> ssidList = getArguments().getStringArrayList("ssidList");
         String currentSsid = getArguments().getString("currentSsid");
+        mSsidPicker = (Spinner) view.findViewById(R.id.get_ssid);
+        mSsidAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, ssidList);
+        mSsidAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        mSsidPicker.setAdapter(mSsidAdapter);
+        mSsidPicker.setOnItemSelectedListener(itemSelectedListener);
+
+        mPasswordPicker = (EditText) view.findViewById(R.id.get_password);
+
         builder.setPositiveButton(R.string.setNetwork, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int id) {
                 // Send the positive button event back to the host activity
-                mListener.onDialogSetWifiSettings("ssid", "password");
+                mListener.onDialogSetWifiSettings(
+                        mSsidPicker.getSelectedItem().toString(),
+                        mPasswordPicker.getText().toString());
             }
         });
 
@@ -80,13 +90,6 @@ public class WifiSettingsDialog extends DialogFragment {
                 mListener.onDialogCancelWifiSettings();
             }
         });
-        mSsidPicker = (Spinner) view.findViewById(R.id.get_ssid);
-        mSsidAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, ssidList);
-        mSsidAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        mSsidPicker.setAdapter(mSsidAdapter);
-        mSsidPicker.setOnItemSelectedListener(itemSelectedListener);
-
-        mPasswordPicker = (EditText) view.findViewById(R.id.get_password);
 
         builder.setView(view);
         return builder.create();

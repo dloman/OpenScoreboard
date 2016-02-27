@@ -185,7 +185,7 @@ public class ScoreboardActivity extends Fragment implements OnClickListener, Vie
         Scoreboard.sendPacket(getScoreString(), Scoreboard.PacketType.eScoreboard);
 	}
 
-    private static String getScoreString()
+    public static String getScoreString()
     {
         return mHomeScore.getText() + "," + mAwayScore.getText() + "," + mGameClockMinutes.getText() + "," + mGameClockSeconds.getText();
     }
