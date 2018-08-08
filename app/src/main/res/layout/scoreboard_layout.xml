@@ -105,26 +105,54 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="452dp"
+            android:layout_height="304dp"
             android:layout_below="@+id/ClockLayout"
             android:layout_centerHorizontal="true"
+            android:layout_gravity="center_horizontal"
             android:layout_marginTop="53dp"
             android:background="@drawable/board"
-            android:orientation="vertical"
-            android:layout_gravity="center_horizontal">
+            android:orientation="vertical">
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="510dp"
+                android:layout_height="92dp"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/textView1"
+                    android:layout_width="36dp"
+                    android:layout_height="76dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginBottom="15dp"
+                    android:layout_weight="1"
+                    android:text="@string/home"
+                    android:textAppearance="@style/Score.TextAppearance.Medium" />
+
+                <TextView
+                    android:id="@+id/textView2"
+                    android:layout_width="3dp"
+                    android:layout_height="35dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginBottom="15dp"
+                    android:layout_weight="1"
+                    android:maxLines="1"
+                    android:text="@string/away"
+                    android:textAppearance="@style/Score.TextAppearance.Medium" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="488dp"
                 android:layout_height="wrap_content"
-                android:baselineAligned="false" >
+                android:baselineAligned="false">
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom"
                     android:layout_weight="1"
-                    android:orientation="vertical" >
+                    android:orientation="vertical">
 
                     <Button
                         android:id="@+id/home_score_up"
@@ -145,20 +173,11 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:orientation="vertical" >
-
-                    <TextView
-                        android:id="@+id/textView1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_marginBottom="15dp"
-                        android:text="@string/home"
-                        android:textAppearance="@style/Score.TextAppearance.Medium" />
+                    android:orientation="vertical">
 
                     <FrameLayout
                         android:layout_width="100dp"
-                        android:layout_height="match_parent" >
+                        android:layout_height="124dp">
 
                         <TextView
                             android:id="@+id/home_score_value"
@@ -172,13 +191,13 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:orientation="vertical"
+                    android:id="@+id/linearLayout"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/board"
                     android:layout_gravity="bottom"
-                    android:id="@+id/linearLayout"
-                    android:layout_weight="0.34">
+                    android:layout_weight="0.34"
+                    android:background="@drawable/board"
+                    android:orientation="vertical">
 
                     <TextView
                         android:id="@+id/quarter"
@@ -188,20 +207,20 @@
                         android:layout_marginBottom="15dp"
                         android:maxLines="1"
                         android:text="@string/quarter"
-                        android:textAppearance="@style/Score.TextAppearance.Small"/>
+                        android:textAppearance="@style/Score.TextAppearance.Small" />
 
                     <LinearLayout
-                        android:orientation="horizontal"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent">
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
 
                         <Button
-                            style="@style/Score.Button.XtraSmall"
                             android:id="@+id/quarter_down"
+                            style="@style/Score.Button.XtraSmall"
                             android:layout_width="@dimen/buttonXtraSmallDim"
                             android:layout_height="@dimen/buttonXtraSmallDim"
-                            android:text="@string/minus"
-                            android:layout_gravity="center_vertical"/>
+                            android:layout_gravity="center_vertical"
+                            android:text="@string/minus" />
 
                         <TextView
                             android:id="@+id/quarter_value"
@@ -210,16 +229,15 @@
                             android:layout_gravity="center_vertical"
                             android:maxLines="1"
                             android:text="@string/zero"
-                            android:textAppearance="@style/Score.TextAppearance.MediumLarge.Blue"
-                            />
+                            android:textAppearance="@style/Score.TextAppearance.MediumLarge.Blue" />
 
                         <Button
-                            style="@style/Score.Button.XtraSmall"
                             android:id="@+id/quarter_up"
+                            style="@style/Score.Button.XtraSmall"
                             android:layout_width="@dimen/buttonXtraSmallDim"
                             android:layout_height="@dimen/buttonXtraSmallDim"
-                            android:text="@string/plus"
-                            android:layout_gravity="center_vertical"/>
+                            android:layout_gravity="center_vertical"
+                            android:text="@string/plus" />
 
                     </LinearLayout>
 
@@ -229,21 +247,11 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:orientation="vertical" >
-
-                    <TextView
-                        android:id="@+id/textView2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_marginBottom="15dp"
-                        android:maxLines="1"
-                        android:text="@string/away"
-                        android:textAppearance="@style/Score.TextAppearance.Medium" />
+                    android:orientation="vertical">
 
                     <FrameLayout
                         android:layout_width="100dp"
-                        android:layout_height="match_parent" >
+                        android:layout_height="match_parent">
 
                         <TextView
                             android:id="@+id/away_score_value"
@@ -260,7 +268,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom"
                     android:layout_weight="1"
-                    android:orientation="vertical" >
+                    android:orientation="vertical">
 
                     <Button
                         android:id="@+id/away_score_up"
@@ -280,12 +288,12 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" >
+                android:layout_height="wrap_content">
 
                 <Button
                     android:id="@+id/reset_home_score"
                     style="@style/Score.Button.Small"
-                    android:layout_width="181dp"
+                    android:layout_width="251dp"
                     android:layout_height="@dimen/buttonSmallDim"
                     android:layout_marginTop="15dp"
                     android:text="@string/reset_score" />

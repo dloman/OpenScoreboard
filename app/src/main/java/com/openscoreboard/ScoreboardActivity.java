@@ -2,9 +2,8 @@ package com.openscoreboard;
 
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
-
 import android.support.v4.app.Fragment;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -28,7 +27,7 @@ public class ScoreboardActivity extends Fragment implements OnClickListener, Vie
         Bundle bundle = getArguments();
         mScoreboardData = bundle.getParcelable("ScoreboardData");
 
-        mScoreboardActivity = (ActionBarActivity) getActivity();
+        mScoreboardActivity =  getActivity();
         View ScoreboardView = inflater.inflate(R.layout.scoreboard_layout, container, false);
 
 		mAnimation = AnimationUtils.loadAnimation(getActivity(), R.anim.abc_slide_in_top);
@@ -223,7 +222,7 @@ public class ScoreboardActivity extends Fragment implements OnClickListener, Vie
                 NumberPickerDialog.createInstance(title, "Score", initialValue, numberPickerReasons, 99);
         dialogFragment.show(mScoreboardActivity.getSupportFragmentManager(), "NumberEditor");
     }
-    private static ActionBarActivity mScoreboardActivity;
+    private static FragmentActivity mScoreboardActivity;
 	private static ScoreboardData mScoreboardData;
 
 	private static Animation mAnimation;

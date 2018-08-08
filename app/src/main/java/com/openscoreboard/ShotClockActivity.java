@@ -5,7 +5,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -29,7 +29,7 @@ public class ShotClockActivity extends Fragment implements OnClickListener, View
 
         Bundle bundle = getArguments();
         mScoreboardData = bundle.getParcelable("ScoreboardData");
-        mShotClockActivity = (ActionBarActivity) getActivity();
+        mShotClockActivity = getActivity();
         View ShotClockView = inflater.inflate(R.layout.shotclock_layout, container, false);
 
 		mAnimation = AnimationUtils.loadAnimation(getActivity(), R.anim.abc_slide_in_top);
@@ -138,7 +138,7 @@ public class ShotClockActivity extends Fragment implements OnClickListener, View
         dialogFragment.show(mShotClockActivity.getSupportFragmentManager(), "NumberEditor");
     }
 
-    private static ActionBarActivity mShotClockActivity;
+    private static FragmentActivity mShotClockActivity;
 	private static ScoreboardData mScoreboardData;
 	
 	private static Animation mAnimation;

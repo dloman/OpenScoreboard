@@ -14,7 +14,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -26,7 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class Scoreboard extends ActionBarActivity implements
+public class Scoreboard extends AppCompatActivity implements
         GameTimePickerDialog.GameTimePickerDialogListener,
         NumberPickerDialog.NumberPickerDialogListener,
         WifiSettingsDialog.WifiSettingsDialogListener
@@ -49,25 +49,26 @@ public class Scoreboard extends ActionBarActivity implements
 
         mWifiManager = (WifiManager) getSystemService(Context.WIFI_SERVICE);
         mViewPager = (ViewPager) findViewById(R.id.scoreboard);
-        mActionBar = getActionBar();
+        mActionBar = getSupportActionBar();
         // Specify that tabs should be displayed in the action bar.
         mActionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
         mViewPager.setAdapter(new SectionsPagerAdapter(getSupportFragmentManager()));
 
-        ActionBar.TabListener tabListener = new ActionBar.TabListener() {
-            public void onTabSelected(ActionBar.Tab tab, FragmentTransaction ft) {
+        android.support.v7.app.ActionBar.TabListener tabListener = new android.support.v7.app.ActionBar.TabListener() {
+
+            public void onTabSelected(android.support.v7.app.ActionBar.Tab tab, android.support.v4.app.FragmentTransaction ft) {
                 // When the tab is selected, switch to the
                 // corresponding page in the ViewPager.
                 mViewPager.setCurrentItem(tab.getPosition());
             }
 
             @Override
-            public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
+            public void onTabUnselected(android.support.v7.app.ActionBar.Tab tab, android.support.v4.app.FragmentTransaction fragmentTransaction) {
             }
 
             @Override
-            public void onTabReselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
+            public void onTabReselected(android.support.v7.app.ActionBar.Tab tab, android.support.v4.app.FragmentTransaction fragmentTransaction) {
             }
         };
 
@@ -77,11 +78,11 @@ public class Scoreboard extends ActionBarActivity implements
                     public void onPageSelected(int position) {
                         // When swiping between pages, select the
                         // corresponding tab.
-                        getActionBar().setSelectedNavigationItem(position);
+                        getSupportActionBar().setSelectedNavigationItem(position);
                     }
                 });
 
-        String[] tabs = { "Score Board", "Shot Clock" };
+        String[] tabs = { "Shot Clock", "Score Board" };
 
         for (String tab_name : tabs) {
             mActionBar.addTab(mActionBar.newTab().setText(tab_name).setTabListener(tabListener));
@@ -228,7 +229,7 @@ public class Scoreboard extends ActionBarActivity implements
         {
             Bundle bundle = new Bundle();
             bundle.putParcelable("ScoreboardData", mScoreboardData);
-            if (position == 1) {
+            if (position == 0) {
                 ShotClockActivity shotClockActivity = new ShotClockActivity();
                 shotClockActivity.setArguments(bundle);
                 return shotClockActivity;
@@ -247,7 +248,7 @@ public class Scoreboard extends ActionBarActivity implements
 
     static WifiManager mWifiManager;
     ViewPager mViewPager;
-    ActionBar mActionBar;
+    android.support.v7.app.ActionBar mActionBar;
     public enum PacketType {
         eScoreboard (33333),
         eShotClock (11111),
